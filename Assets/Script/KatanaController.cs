@@ -26,9 +26,9 @@ public class KatanaController : MonoBehaviour
     private void Update()
     {
         attackTime += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && animator.GetBool("KatanaOn"))
         {
-            if(attackTime < 5f)
+            if(attackTime < 1f)
             {
                 leftRight = leftRight == LeftRight.Left ? LeftRight.Right : LeftRight.Left;
             }
@@ -37,7 +37,7 @@ public class KatanaController : MonoBehaviour
                 leftRight = LeftRight.Right;
             }
 
-            attackNum = Random.Range(0, 3 + 1);
+            attackNum = Random.Range(1, 3 + 1);
             animator.Play("Katana_Attack_" + leftRight.ToString() + "_" + attackNum.ToString());
 
             attackTime = 0;
