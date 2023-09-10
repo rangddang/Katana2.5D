@@ -13,10 +13,16 @@ public class KatanaController : MonoBehaviour
     private Animator animator;
 
     [SerializeField] private float attackDelay = 0.1f;
+    [SerializeField] private float perpectParryingTime = 0.5f;
+
+    public bool katanaOn = false;
+    public bool isParrying = false;
+    public bool parryingPerpect = false;
 
     private float attackTime;
-    private LeftRight leftRight = LeftRight.Right;
+    private LeftRight leftRight = LeftRight.Left;
     private int attackNum;
+    private float parryingTIme;
 
     private void Awake()
     {
@@ -26,9 +32,10 @@ public class KatanaController : MonoBehaviour
     private void Update()
     {
         attackTime += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Mouse0) && animator.GetBool("KatanaOn"))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && katanaOn && attackTime > attackDelay)
         {
-            if(attackTime < 1f)
+			isParrying = false;
+			if (attackTime < 1f)
             {
                 leftRight = leftRight == LeftRight.Left ? LeftRight.Right : LeftRight.Left;
             }
@@ -43,11 +50,31 @@ public class KatanaController : MonoBehaviour
             attackTime = 0;
         }
 
-        animator.SetBool("IsParrying", Input.GetKey(KeyCode.Mouse1));
+        
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+			isParrying = true;
+		}
+        else if(Input.GetKeyUp(KeyCode.Mouse1))
+        {
+			isParrying = false;
+		}
+        if (isParrying)
+        {
+            parryingPerpect = parryingTIme < perpectParryingTime;
+
+			parryingTIme += Time.deltaTime;
+        }
+        else
+        {
+            parryingTIme = 0;
+        }
+		animator.SetBool("IsParrying", isParrying);
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-			animator.SetBool("KatanaOn", !animator.GetBool("KatanaOn"));
+            katanaOn = !katanaOn;
+			animator.SetBool("KatanaOn", katanaOn);
 		}
     }
 }

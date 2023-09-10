@@ -16,7 +16,9 @@ public class PlayerController : MonoBehaviour
 
     private float rotateX;
     private float runSin;
-
+    private float runSize;
+    private float idleSin;
+    private float hor;
 
 
 	private void Update()
@@ -46,12 +48,14 @@ public class PlayerController : MonoBehaviour
         float clampY = Mathf.Clamp(mouseY * 0.1f, -clampRotate, clampRotate);
 
 		katanaPos.localRotation *= Quaternion.Euler(clampY , clampX, 0);
-		katanaPos.localRotation = Quaternion.Lerp(katanaPos.localRotation, Quaternion.identity, Time.deltaTime * 15);
+		katanaPos.localRotation = Quaternion.Lerp(katanaPos.localRotation, Quaternion.Euler(0,0, katanaPos.localRotation.z), Time.deltaTime * 15);
     }
 
     private void Move(Vector3 dir)
     {
-        //if(dir == Vector3.zero) return;
+        hor = Mathf.Lerp(hor, dir.x, Time.deltaTime * 10);
+
+        currentMoveSpeed = katana.katanaOn ? 5f : 10f;
 
         Vector3 moveDir = ((dir.x * transform.right) + (dir.z * transform.forward)).normalized;
 
@@ -59,15 +63,18 @@ public class PlayerController : MonoBehaviour
 
         if (dir != Vector3.zero)
         {
+            idleSin = 0;
             runSin += Time.deltaTime * currentMoveSpeed;
-            katanaPos.localPosition += new Vector3(dir.x, 2, 0).normalized * -0.0025f;
-            katanaPos.localPosition += new Vector3(Mathf.Sin(runSin) * 0.0003f, Mathf.Abs(Mathf.Sin(runSin)) * 0.001f, 0);
-		}
+            runSize = Mathf.Lerp(runSize, 1, Time.deltaTime * 10);
+            katanaPos.localPosition = (new Vector3(hor, 0, 0) * -0.01f) + new Vector3(0,-0.04f * runSize,0) + new Vector3(Mathf.Sin(runSin) * 0.002f, Mathf.Abs(Mathf.Sin(runSin)) * 0.01f, 0);
+            katanaPos.localRotation = Quaternion.Euler(katanaPos.localRotation.x, katanaPos.localRotation.y, hor * -4.5f);
+        }
         else
         {
             runSin = 0;
+            idleSin += Time.deltaTime * 1.3f;
+            runSize = Mathf.Lerp(runSize, 0, Time.deltaTime * 20);
+            katanaPos.localPosition = Vector3.Lerp(katanaPos.localPosition, new Vector3(0, -Mathf.Sin(idleSin) * 0.007f, 0), Time.deltaTime * 15);
         }
-        katanaPos.localPosition = Vector3.Lerp(katanaPos.localPosition, Vector3.zero, Time.deltaTime * 15);
-		katanaPos.localRotation *= Quaternion.Euler(0, 0, -dir.x * 0.25f);
 	}
 }

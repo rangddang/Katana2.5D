@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4827c5b53125f13478d20baf362105f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDelay: 0.1
+  attackDelay: 0.2
 --- !u!95 &598121809
 Animator:
   serializedVersion: 4
