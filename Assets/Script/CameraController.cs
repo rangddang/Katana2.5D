@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private Transform target;
+    [SerializeField] private float shakePower;
 
-    private float rotateX;
-    private float rotateY;
-
-    private void Update()
+    public void ShakeCamera()
     {
-        float mouseX = Input.GetAxis("Mouse X");
-		float mouseY = Input.GetAxis("Mouse Y");
 
-
-
-	}
+    }
 }
