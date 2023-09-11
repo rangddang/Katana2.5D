@@ -73,7 +73,8 @@ public class KatanaController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            katanaOn = !katanaOn;
+			isParrying = false;
+			katanaOn = !katanaOn;
 			animator.SetBool("KatanaOn", katanaOn);
 		}
     }
