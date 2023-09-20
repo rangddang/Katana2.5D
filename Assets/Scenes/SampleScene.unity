@@ -267,7 +267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4827c5b53125f13478d20baf362105f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDelay: 0.2
+  camera: {fileID: 963194229}
+  attackDelay: 0.28
   perpectParryingTime: 0.5
   katanaOn: 0
   isParrying: 0
@@ -483,7 +484,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4038588010431429ee75d12a62afd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shakePower: 0
+  shakePower: 0.15
+  shakeTime: 0.2
+  cutPower: 0.5
+  cutTime: 0.3
+  rotateSize: 1
 --- !u!1 &1010184396
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,7 +652,7 @@ GameObject:
   - component: {fileID: 1697128897}
   - component: {fileID: 1697128896}
   m_Layer: 0
-  m_Name: Enemy_Test
+  m_Name: Enemy_dummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -665,7 +670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d3ff94fee27a0d4ea826e02c4ca773a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 2040063545}
 --- !u!54 &1697128897
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -901,12 +906,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10c228956c0de864aa7f5fa211866c88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentMoveSpeed: 5
+  currentMoveSpeed: 8
   sensitivity: 5
   clampAngle: 70
   head: {fileID: 1746190480}
   katanaPos: {fileID: 2079883637}
   katana: {fileID: 598121808}
+  camera: {fileID: 963194229}
 --- !u!1 &2079883636
 GameObject:
   m_ObjectHideFlags: 0

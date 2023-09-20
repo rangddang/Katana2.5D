@@ -12,6 +12,8 @@ public class KatanaController : MonoBehaviour
 
     private Animator animator;
 
+    [SerializeField] private CameraController camera;
+
     [SerializeField] private float attackDelay = 0.1f;
     [SerializeField] private float perpectParryingTime = 0.5f;
 
@@ -35,7 +37,7 @@ public class KatanaController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0) && katanaOn && attackTime > attackDelay)
         {
 			isParrying = false;
-			if (attackTime < 1f)
+			if (attackTime < 0.7f)
             {
                 leftRight = leftRight == LeftRight.Left ? LeftRight.Right : LeftRight.Left;
             }
@@ -45,7 +47,13 @@ public class KatanaController : MonoBehaviour
             }
 
             attackNum = Random.Range(1, 3 + 1);
+
             animator.Play("Katana_Attack_" + leftRight.ToString() + "_" + attackNum.ToString());
+
+            float x = leftRight == LeftRight.Left ? 1 : -1;
+            float y = attackNum - 2;
+            y *= leftRight == LeftRight.Left ? -1 : 1;
+            camera.CutCamera(new Vector2(x, y));
 
             attackTime = 0;
         }

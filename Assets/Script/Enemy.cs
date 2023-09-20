@@ -18,7 +18,8 @@ public class Enemy : MonoBehaviour
     {
         if(target != null)
         {
-            
+            Quaternion dir = Quaternion.LookRotation(transform.position, new Vector3(target.position.x, transform.position.y, target.position.z));
+            transform.rotation = dir;
         }
     }
 }

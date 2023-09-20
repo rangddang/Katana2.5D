@@ -3,6 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class Status
+{
+	public float hp;
+	public float runMoveSpeed;
+	public float walkMoveSpeed;
+	public float attackDamage;
+	public float attackLate;
+
+}
+
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float currentMoveSpeed = 5;
@@ -13,6 +23,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform head;
     [SerializeField] private Transform katanaPos;
     [SerializeField] private KatanaController katana;
+    [SerializeField] private CameraController camera;
+    private Status status;
 
     private float rotateX;
     private float runSin;
@@ -20,8 +32,13 @@ public class PlayerController : MonoBehaviour
     private float idleSin;
     private float hor;
 
+    private void Awake()
+    {
+        status = GetComponent<Status>();
+    }
 
-	private void Update()
+
+    private void Update()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -55,7 +72,7 @@ public class PlayerController : MonoBehaviour
     {
         hor = Mathf.Lerp(hor, dir.x, Time.deltaTime * 10);
 
-        currentMoveSpeed = katana.katanaOn ? 5f : 10f;
+        currentMoveSpeed = katana.katanaOn ? status.walkMoveSpeed : status.runMoveSpeed;
 
         Vector3 moveDir = ((dir.x * transform.right) + (dir.z * transform.forward)).normalized;
 
@@ -76,5 +93,6 @@ public class PlayerController : MonoBehaviour
             runSize = Mathf.Lerp(runSize, 0, Time.deltaTime * 20);
             katanaPos.localPosition = Vector3.Lerp(katanaPos.localPosition, new Vector3(0, -Mathf.Sin(idleSin) * 0.007f, 0), Time.deltaTime * 15);
         }
+        camera.MovingCamera(-dir.x);
 	}
 }
