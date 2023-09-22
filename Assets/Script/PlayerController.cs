@@ -3,16 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Status
-{
-	public float hp;
-	public float runMoveSpeed;
-	public float walkMoveSpeed;
-	public float attackDamage;
-	public float attackLate;
-
-}
-
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float currentMoveSpeed = 5;
@@ -23,8 +13,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform head;
     [SerializeField] private Transform katanaPos;
     [SerializeField] private KatanaController katana;
-    [SerializeField] private CameraController camera;
-    private Status status;
+    private CameraController camera;
+    private Rigidbody rigid;
+
+    public Status status;
 
     private float rotateX;
     private float runSin;
@@ -34,9 +26,15 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        camera = Camera.main.GetComponent<CameraController>();
+        rigid = GetComponent<Rigidbody>();
         status = GetComponent<Status>();
     }
 
+    private void Start()
+    {
+        OffCursor();
+    }
 
     private void Update()
     {
@@ -49,6 +47,11 @@ public class PlayerController : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y");
 
         Rotate(mouseX * sensitivity, mouseY * sensitivity);
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnCursor();
+        }
 	}
 
     private void Rotate(float mouseX, float mouseY)
@@ -72,7 +75,7 @@ public class PlayerController : MonoBehaviour
     {
         hor = Mathf.Lerp(hor, dir.x, Time.deltaTime * 10);
 
-        currentMoveSpeed = katana.katanaOn ? status.walkMoveSpeed : status.runMoveSpeed;
+        currentMoveSpeed = katana.katanaOn ? status.walkSpeed : status.runSpeed;
 
         Vector3 moveDir = ((dir.x * transform.right) + (dir.z * transform.forward)).normalized;
 
@@ -94,5 +97,39 @@ public class PlayerController : MonoBehaviour
             katanaPos.localPosition = Vector3.Lerp(katanaPos.localPosition, new Vector3(0, -Mathf.Sin(idleSin) * 0.007f, 0), Time.deltaTime * 15);
         }
         camera.MovingCamera(-dir.x);
+	}
+
+    public void Hit(float damage)
+    {
+        status.health -= damage;
+    }
+
+    private void OnCursor()
+    {
+		Cursor.visible = true;
+		Cursor.lockState = CursorLockMode.None;
+	}
+
+    private void OffCursor()
+    {
+		Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Locked;
+	}
+
+	public void SlowTime()
+	{
+		StartCoroutine("SlowTimeScale");
+	}
+
+	private IEnumerator SlowTimeScale()
+	{
+        float saveSensitivity = sensitivity;
+
+		yield return new WaitForSecondsRealtime(0.06f);
+        sensitivity = saveSensitivity * 0.2f;
+		Time.timeScale = 0.2f;
+		yield return new WaitForSecondsRealtime(0.1f);
+		sensitivity = saveSensitivity;
+		Time.timeScale = 1f;
 	}
 }
