@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform katanaPos;
     [SerializeField] private KatanaController katana;
     private CameraController camera;
-    private Rigidbody rigid;
+    private CharacterController character;
 
     public Status status;
 
@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         camera = Camera.main.GetComponent<CameraController>();
-        rigid = GetComponent<Rigidbody>();
+        character = GetComponent<CharacterController>();
         status = GetComponent<Status>();
     }
 
@@ -79,7 +79,8 @@ public class PlayerController : MonoBehaviour
 
         Vector3 moveDir = ((dir.x * transform.right) + (dir.z * transform.forward)).normalized;
 
-		transform.position += moveDir * currentMoveSpeed * Time.deltaTime;
+		//transform.position += moveDir * currentMoveSpeed * Time.deltaTime;
+        character.Move(moveDir * currentMoveSpeed * Time.deltaTime);
 
         if (dir != Vector3.zero)
         {

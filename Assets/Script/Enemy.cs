@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public string name = "Enemy";
 	protected Animator animator;
-    protected Status status;
+    public Status status;
+
+    public float currentHealth;
+    public float currentMoveSpeed;
 
     [SerializeField] protected Transform target;
     [SerializeField] protected GameObject hitEffect;
@@ -17,12 +21,18 @@ public class Enemy : MonoBehaviour
         status = GetComponent<Status>();
     }
 
+    private void Start()
+    {
+        currentHealth = status.health;
+    }
+
     private void Update()
     {
         if(target != null)
         {
-            
-        }
+			//Quaternion dir = Quaternion.LookRotation(transform.position, new Vector3(target.position.x, transform.position.y, target.position.z));
+			//transform.rotation = dir;
+		}
     }
 
     public void Attack()
@@ -32,7 +42,7 @@ public class Enemy : MonoBehaviour
 
     public void Hit(float damage, float dir)
     {
-        status.health -= damage;
+        currentHealth -= damage;
         animator.Play("Enemy_Hit");
         GameObject effect = Instantiate(hitEffect);
         effect.transform.position = transform.position;
