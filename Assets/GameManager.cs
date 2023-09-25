@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         ui.bossHP.fillAmount = boss.currentHealth / boss.status.health;
+        ui.bossSubHP.fillAmount = Mathf.Lerp(ui.bossSubHP.fillAmount, ui.bossHP.fillAmount, Time.deltaTime * 5);
         ui.bossName.text = boss.name;
     }
 }

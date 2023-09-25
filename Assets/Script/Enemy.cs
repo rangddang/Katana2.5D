@@ -30,22 +30,22 @@ public class Enemy : MonoBehaviour
     {
         if(target != null)
         {
-			//Quaternion dir = Quaternion.LookRotation(transform.position, new Vector3(target.position.x, transform.position.y, target.position.z));
-			//transform.rotation = dir;
+			Quaternion dir = Quaternion.LookRotation(transform.position - new Vector3(target.position.x, transform.position.y, target.position.z));
+			transform.rotation = dir;
 		}
     }
 
-    public void Attack()
+    public virtual void Attack()
     {
 
     }
 
-    public void Hit(float damage, float dir)
+    public void Hit(float damage, Vector2 dir)
     {
         currentHealth -= damage;
         animator.Play("Enemy_Hit");
         GameObject effect = Instantiate(hitEffect);
         effect.transform.position = transform.position;
-        effect.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y + (90 * dir), 0);
+        effect.transform.rotation = Quaternion.Euler(-(90 * dir.y), transform.eulerAngles.y + (90 * dir.x), 0);
     }
 }
