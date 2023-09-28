@@ -2,6 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AttackType
+{
+	None,
+	Attack,
+	StrongAttack,
+	CounterAttack
+}
+
+public enum ParryingType
+{
+	None,
+	Parrying,
+	PerfectParrying
+}
+
 public class KatanaController : MonoBehaviour
 {
     private enum LeftRight
@@ -18,19 +33,21 @@ public class KatanaController : MonoBehaviour
     [SerializeField] private Transform attackRange;
     [SerializeField] private LayerMask enemyMask;
 
-    [SerializeField] private float attackDelay = 0.20f;
-	[SerializeField] private float strongAttackDelay = 0.40f;
-	[SerializeField] private float perpectParryingTime = 0.5f;
-    [SerializeField] private float attackWait = 0.7f;
+    public float attackDelay = 0.2f;
+	public float strongAttackDelay = 0.5f;
+	public float counterAttackDelay = 0.4f;
+	public float perpectParryingTime = 0.3f;
+	public bool parryingSuccess;
+	[SerializeField] private float attackWait = 0.7f;
 
     public bool katanaOn = false;
-    public bool isParrying = false;
-    public bool parryingPerpect = false;
+	public AttackType attackType;
+	public ParryingType parryingType;
 
-    private float attackTime;
+	private float attackTime;
+	private float parryingSucTime;
     private LeftRight leftRight = LeftRight.Left;
     private int attackNum;
-    private float parryingTIme;
 
     private void Awake()
     {
@@ -41,38 +58,33 @@ public class KatanaController : MonoBehaviour
     {
 		attackTime += Time.deltaTime;
 
-        if (attackTime > attackDelay)
-        {
-            if (!isParrying)
-            {
-				if (Input.GetKeyDown(KeyCode.E))
-				{
-					katanaOn = !katanaOn;
-					animator.SetBool("IsAttack", false);
-					animator.SetBool("KatanaOn", katanaOn);
-				}
-                if (katanaOn)
-                {
-					if (inputManager.attackType == AttackType.Attack)
-					{
-						Attack();
-					}
-					else if (inputManager.attackType == AttackType.StrongAttack)
-					{
-						StrongAttack();
-					}
-				}
-			}
-			if (Input.GetKey(KeyCode.Mouse1) && !isParrying && katanaOn)
+		if (parryingType == ParryingType.None)
+		{
+			if (Input.GetKeyDown(KeyCode.E))
 			{
-				isParrying = true;
+				katanaOn = !katanaOn;
 				animator.SetBool("IsAttack", false);
-                animator.Play("Katana_Parrying");
+				animator.SetBool("KatanaOn", katanaOn);
 			}
-            else if(Input.GetKeyUp(KeyCode.Mouse1))
-            {
-				isParrying = false;
+			if (katanaOn)
+			{
+				if (attackType == AttackType.Attack)
+				{
+					Attack();
+				}
+				else if (attackType == AttackType.StrongAttack)
+				{
+					StrongAttack();
+				}
+				else if(attackType == AttackType.CounterAttack)
+				{
+					CounterAttack();
+				}
 			}
+		}
+		if (!(parryingType == ParryingType.None))
+		{
+			Parrying();
 		}
 
         if(attackTime >= attackWait)
@@ -80,17 +92,17 @@ public class KatanaController : MonoBehaviour
             animator.SetBool("IsAttack", false);
         }
 
-        if (isParrying)
-        {
-            parryingPerpect = parryingTIme < perpectParryingTime;
+		if (parryingSuccess)
+		{
+			parryingSucTime += Time.deltaTime;
+			if (parryingSucTime > 1f)
+			{
+				parryingSucTime = 0;
+				parryingSuccess = false;
+			}
+		}
 
-			parryingTIme += Time.deltaTime;
-        }
-        else
-        {
-            parryingTIme = 0;
-        }
-		animator.SetBool("IsParrying", isParrying);
+		animator.SetBool("IsParrying", !(parryingType == ParryingType.None));
     }
 
     public void Attack()
@@ -120,11 +132,11 @@ public class KatanaController : MonoBehaviour
 
         for (i = 0; i < targets.Length; i++)
         {
-            targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * Random.Range(0.7f, 1.3f), new Vector2(x, 0));
+            targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.attackDamage, new Vector2(x, 0));
         }
         if (i > 0)
         {
-            camera.ShakeCamera();
+            camera.ShakeCamera(0.2f , 0.4f);
             //player.SlowTime();
         }
 
@@ -145,15 +157,65 @@ public class KatanaController : MonoBehaviour
 
 		for (i = 0; i < targets.Length; i++)
 		{
-			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 3f * Random.Range(0.7f, 1.3f), new Vector2(0,1));
+			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.strongAttackDamage, new Vector2(0,1));
 		}
 		if (i > 0)
 		{
-			camera.ShakeCamera();
+			camera.ShakeCamera(0.3f, 0.6f);
 			//player.SlowTime();
 		}
 
 		attackTime = 0;
+	}
+
+	public void CounterAttack()
+	{
+		StopCoroutine("CountAttack");
+		StartCoroutine("CountAttack");
+	}
+
+	private IEnumerator CountAttack()
+	{
+		attackNum = Random.Range(1, 3 + 1);
+		leftRight = LeftRight.Right;
+		Count();
+		yield return new WaitForSeconds(0.15f);
+		leftRight = LeftRight.Left;
+		Count();
+	}
+
+	private void Count()
+	{
+		animator.SetBool("IsAttack", true);
+
+		animator.Play("Katana_Attack_" + leftRight.ToString() + "_" + attackNum.ToString(), -1, 0);
+
+		float x = leftRight == LeftRight.Left ? 1 : -1;
+		float y = attackNum - 2;
+		y *= leftRight == LeftRight.Left ? 1 : -1;
+		camera.CutCamera(new Vector2(x, y));
+
+		Collider[] targets = Physics.OverlapBox(transform.position + (transform.forward * attackRange.localPosition.z), attackRange.lossyScale, transform.rotation, enemyMask);
+
+		int i;
+
+		for (i = 0; i < targets.Length; i++)
+		{
+			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.counterAttackDamage, new Vector2(x, 0));
+		}
+		if (i > 0)
+		{
+			camera.ShakeCamera(0.2f, 0.4f);
+			//player.SlowTime();
+		}
+
+		attackTime = 0;
+	}
+
+	public void Parrying()
+	{
+		animator.SetBool("IsAttack", false);
+		animator.Play("Katana_Parrying");
 	}
 
 	private void OnDrawGizmos()

@@ -13,7 +13,12 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] protected Transform target;
     [SerializeField] protected GameObject hitEffect;
+    [SerializeField] protected AnimationClip attackAnim;
+    [SerializeField] private float attackDistance = 1.5f;
+    [SerializeField] private float attackDelay = 1.5f;
     
+    private float attackTime;
+    private bool isAttack;
 
     private void Awake()
     {
@@ -30,22 +35,52 @@ public class Enemy : MonoBehaviour
     {
         if(target != null)
         {
+            if (!isAttack)
+            {
+                attackTime += Time.deltaTime;
+            }
 			Quaternion dir = Quaternion.LookRotation(transform.position - new Vector3(target.position.x, transform.position.y, target.position.z));
 			transform.rotation = dir;
+            if(Vector3.Distance(transform.position, target.position) < attackDistance && attackTime >= attackDelay)
+            {
+                TryAttack();
+            }
 		}
+    }
+
+    public virtual void TryAttack()
+    {
+        StopCoroutine("AttackTarget");
+        StartCoroutine("AttackTarget");
     }
 
     public virtual void Attack()
     {
-
+        if(Vector3.Distance(transform.position, target.position) < attackDistance)
+        {
+            target.GetComponent<PlayerController>().Hit(status.attackDamage);
+        }
     }
 
-    public void Hit(float damage, Vector2 dir)
+    public virtual void Hit(float damage, Vector2 dir)
     {
         currentHealth -= damage;
-        animator.Play("Enemy_Hit");
+        if (!isAttack)
+        {
+            animator.Play("Enemy_Hit");
+        }
         GameObject effect = Instantiate(hitEffect);
         effect.transform.position = transform.position;
         effect.transform.rotation = Quaternion.Euler(-(90 * dir.y), transform.eulerAngles.y + (90 * dir.x), 0);
     }
+
+    private IEnumerator AttackTarget()
+    {
+        isAttack = true;
+		attackTime = 0;
+		animator.Play("Enemy_Attack", -1, 0);
+		yield return new WaitForSeconds(attackAnim.length);
+        Attack();
+        isAttack = false;
+	}
 }

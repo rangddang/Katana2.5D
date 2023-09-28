@@ -12,7 +12,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform head;
     [SerializeField] private Transform katanaPos;
+
     [SerializeField] private KatanaController katana;
+    [SerializeField] private UIController ui;
     private CameraController camera;
     private CharacterController character;
 
@@ -102,7 +104,23 @@ public class PlayerController : MonoBehaviour
 
     public void Hit(float damage)
     {
-        status.health -= damage;
+        if (katana.parryingType == ParryingType.None)
+        {
+            status.health -= damage;
+            ui.HitEffect();
+            camera.ShakeCamera(0.3f, 0.8f);
+        }
+        else if (katana.parryingType == ParryingType.Parrying)
+        {
+            status.health -= damage * 0.3f;
+			ui.HitEffect();
+			camera.ShakeCamera(0.3f, 0.5f);
+        }
+        else if (katana.parryingType == ParryingType.PerfectParrying)
+        {
+			camera.ShakeCamera(0.2f, 0.3f);
+            katana.parryingSuccess = true;
+		}
     }
 
     private void OnCursor()

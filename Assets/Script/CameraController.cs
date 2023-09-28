@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private float shakePower = 0.1f;
-    [SerializeField] private float shakeTime = 0.2f;
+    private float shakePower;
+    private float shakeTime;
 	[SerializeField] private float cutPower = 0.3f;
 	[SerializeField] private float cutTime = 0.3f;
 	[SerializeField] private float rotateSize = 5;
@@ -26,8 +26,10 @@ public class CameraController : MonoBehaviour
 		transform.localRotation = Quaternion.Euler(shakeRotate.y + cutRotate.y, shakeRotate.x + cutRotate.x, cameraRotate * rotateSize);
 	}
 
-    public void ShakeCamera()
+    public void ShakeCamera(float time, float power)
     {
+        shakeTime = time;
+        shakePower = power;
         StopCoroutine("ShakeCam");
         StartCoroutine("ShakeCam");
     }
@@ -48,6 +50,8 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator ShakeCam()
     {
+        float time = shakeTime;
+        float power = shakePower;
         float currentTime = 0;
         float randX;
         float randY;
@@ -60,7 +64,7 @@ public class CameraController : MonoBehaviour
 
 			shakeRotate = new Vector2(randX, randY).normalized * shakePower;
 
-            if(currentTime >= shakeTime)
+            if(currentTime >= time)
             {
                 shakeRotate = Vector2.zero;
                 yield break;
