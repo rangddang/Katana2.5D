@@ -41,15 +41,19 @@ public class Enemy : MonoBehaviour
             {
                 attackTime += Time.deltaTime;
             }
-			Quaternion dir = Quaternion.LookRotation(transform.position - new Vector3(target.position.x, transform.position.y, target.position.z));
+			Quaternion dir = Quaternion.LookRotation(new Vector3(target.position.x, transform.position.y, target.position.z) - transform.position);
 			transform.rotation = dir;
             if(Vector3.Distance(transform.position, target.position) < attackDistance && attackTime >= attackDelay)
             {
                 TryAttack();
             }
-            else if(!isAttack)
+            else if(!isAttack && Vector3.Distance(transform.position, target.position) > 1.5f)
             {
                 Move();
+            }
+            else
+            {
+                animator.SetBool("IsWalk", false);
             }
 		}
         else
