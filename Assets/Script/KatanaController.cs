@@ -132,7 +132,7 @@ public class KatanaController : MonoBehaviour
 
         for (i = 0; i < targets.Length; i++)
         {
-            targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.attackDamage, new Vector2(x, 0));
+            targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage, new Vector2(x, -y * 0.3f));
         }
         if (i > 0)
         {
@@ -157,7 +157,7 @@ public class KatanaController : MonoBehaviour
 
 		for (i = 0; i < targets.Length; i++)
 		{
-			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.strongAttackDamage, new Vector2(0,1));
+			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 3f, new Vector2(0,1));
 		}
 		if (i > 0)
 		{
@@ -170,6 +170,8 @@ public class KatanaController : MonoBehaviour
 
 	public void CounterAttack()
 	{
+		parryingSuccess = false;
+		parryingSucTime = 0;
 		StopCoroutine("CountAttack");
 		StartCoroutine("CountAttack");
 	}
@@ -201,7 +203,7 @@ public class KatanaController : MonoBehaviour
 
 		for (i = 0; i < targets.Length; i++)
 		{
-			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.counterAttackDamage, new Vector2(x, 0));
+			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 2.5f, new Vector2(x, -y * 0.3f));
 		}
 		if (i > 0)
 		{

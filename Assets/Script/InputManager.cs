@@ -42,7 +42,6 @@ public class InputManager : MonoBehaviour
             isAttack = true;
             if (katana.parryingSuccess)
             {
-                katana.parryingSuccess = false;
 				katana.attackType = AttackType.CounterAttack;
 				isAttack = false;
 				attackDelay = katana.counterAttackDelay;

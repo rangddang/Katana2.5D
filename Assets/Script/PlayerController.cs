@@ -119,7 +119,8 @@ public class PlayerController : MonoBehaviour
         else if (katana.parryingType == ParryingType.PerfectParrying)
         {
 			camera.ShakeCamera(0.2f, 0.3f);
-            katana.parryingSuccess = true;
+			katana.parryingSuccess = false;
+			katana.parryingSuccess = true;
 		}
     }
 

@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected AnimationClip attackAnim;
     [SerializeField] private float attackDistance = 1.5f;
     [SerializeField] private float attackDelay = 1.5f;
+    protected Rigidbody rigid;
     
     private float attackTime;
     private bool isAttack;
@@ -24,6 +25,7 @@ public class Enemy : MonoBehaviour
     {
         animator = transform.Find("Sprite").GetComponent<Animator>();
         status = GetComponent<Status>();
+        rigid = GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -45,12 +47,29 @@ public class Enemy : MonoBehaviour
             {
                 TryAttack();
             }
+            else if(!isAttack)
+            {
+                Move();
+            }
 		}
+        else
+        {
+			animator.SetBool("IsWalk", false);
+		}
+    }
+
+    public virtual void Move()
+    {
+        currentMoveSpeed = status.walkSpeed;
+
+        transform.position += transform.forward * Time.deltaTime * currentMoveSpeed;
+        animator.SetBool("IsWalk", true);
     }
 
     public virtual void TryAttack()
     {
-        StopCoroutine("AttackTarget");
+		animator.SetBool("IsWalk", false);
+		StopCoroutine("AttackTarget");
         StartCoroutine("AttackTarget");
     }
 
@@ -58,7 +77,7 @@ public class Enemy : MonoBehaviour
     {
         if(Vector3.Distance(transform.position, target.position) < attackDistance)
         {
-            target.GetComponent<PlayerController>().Hit(status.attackDamage);
+            target.GetComponent<PlayerController>().Hit(status.damage);
         }
     }
 
@@ -72,6 +91,15 @@ public class Enemy : MonoBehaviour
         GameObject effect = Instantiate(hitEffect);
         effect.transform.position = transform.position;
         effect.transform.rotation = Quaternion.Euler(-(90 * dir.y), transform.eulerAngles.y + (90 * dir.x), 0);
+        if(currentHealth <= 0)
+        {
+
+        }
+    }
+
+    public virtual void Dead()
+    {
+
     }
 
     private IEnumerator AttackTarget()

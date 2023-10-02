@@ -1699,10 +1699,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34614e953687f6c48a5a2b3fe89513b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 300
-  attackDamage: 1
-  strongAttackDamage: 0
-  counterAttackDamage: 0
+  health: 50
+  damage: 2
   walkSpeed: 5
   runSpeed: 20
 --- !u!1 &1746190479
@@ -2397,9 +2395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
-  attackDamage: 1.5
-  strongAttackDamage: 5
-  counterAttackDamage: 4
+  damage: 1
   walkSpeed: 5
   runSpeed: 10
 --- !u!143 &2040063548
