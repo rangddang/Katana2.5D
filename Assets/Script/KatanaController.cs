@@ -157,7 +157,7 @@ public class KatanaController : MonoBehaviour
 
 		for (i = 0; i < targets.Length; i++)
 		{
-			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 3f, new Vector2(0,1));
+			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 5f, new Vector2(0,1));
 		}
 		if (i > 0)
 		{
@@ -181,7 +181,7 @@ public class KatanaController : MonoBehaviour
 		attackNum = Random.Range(1, 3 + 1);
 		leftRight = LeftRight.Right;
 		Count();
-		yield return new WaitForSeconds(0.15f);
+		yield return new WaitForSeconds(0.12f);
 		leftRight = LeftRight.Left;
 		Count();
 	}
@@ -203,7 +203,7 @@ public class KatanaController : MonoBehaviour
 
 		for (i = 0; i < targets.Length; i++)
 		{
-			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 1.75f, new Vector2(x, -y * 0.3f));
+			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 1.5f, new Vector2(x, -y * 0.3f));
 		}
 		if (i > 0)
 		{

@@ -501,7 +501,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
-  attackDelay: 0.2
+  attackDelay: 0.18
   strongAttackDelay: 0.5
   counterAttackDelay: 0.3
   perpectParryingTime: 0.25
@@ -1689,7 +1689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d3ff94fee27a0d4ea826e02c4ca773a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: "\uBC8C\uB808\uC268"
+  name: "\uC8011"
   status: {fileID: 1697128899}
   currentHealth: 0
   currentMoveSpeed: 0
