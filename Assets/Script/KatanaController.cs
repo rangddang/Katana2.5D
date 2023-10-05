@@ -157,7 +157,7 @@ public class KatanaController : MonoBehaviour
 
 		for (i = 0; i < targets.Length; i++)
 		{
-			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 5f, new Vector2(0,1));
+			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 4f, new Vector2(0,1));
 		}
 		if (i > 0)
 		{
