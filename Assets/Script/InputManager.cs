@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private KeyCode dashKey = KeyCode.Space;
 
     private float attackDelay;
+    private float parringDelay;
     private float attackTime;
     private bool isAttack = false;
     private float parryingTime;
@@ -73,23 +74,32 @@ public class InputManager : MonoBehaviour
 
     private void Parrying()
     {
-		if (Input.GetKeyDown(parryingKey) && attackTime > attackDelay)
+        if (isParrying)
+        {
+            parryingTime += Time.deltaTime;
+        }
+        else
+        {
+            parringDelay -= Time.deltaTime;
+        }
+
+		if (Input.GetKey(parryingKey) && attackTime > attackDelay && !isParrying && parringDelay <= 0)
 		{
             isParrying = true;
 			katana.parryingType = ParryingType.PerfectParrying;
 		}
         else if(Input.GetKey(parryingKey) && isParrying)
         {
-            parryingTime += Time.deltaTime;
             if(parryingTime > katana.perpectParryingTime)
             {
 				katana.parryingType = ParryingType.Parrying;
 			}
         }
-        else if (Input.GetKeyUp(parryingKey) && isParrying)
+        else if (!Input.GetKey(parryingKey) && isParrying && parryingTime > 0.2f)
         {
             isParrying = false;
             parryingTime = 0;
+            parringDelay = 0.2f;
 			katana.parryingType = ParryingType.None;
 		}
 	}

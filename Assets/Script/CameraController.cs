@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     private float shakePower;
     private float shakeTime;
-	[SerializeField] private float cutPower = 0.3f;
+	private float cutPower = 0.3f;
 	[SerializeField] private float cutTime = 0.3f;
 	[SerializeField] private float rotateSize = 5;
     private Camera camera;
@@ -40,9 +40,10 @@ public class CameraController : MonoBehaviour
         
     }
 
-    public void CutCamera(Vector2 dir)
+    public void CutCamera(Vector2 dir, float power)
     {
         cutDir = dir.normalized;
+        cutPower = power;
 		StopCoroutine("CutCam");
 		StartCoroutine("CutCam");
 

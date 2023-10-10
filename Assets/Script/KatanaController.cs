@@ -124,15 +124,15 @@ public class KatanaController : MonoBehaviour
 		float x = leftRight == LeftRight.Left ? 1 : -1;
 		float y = attackNum - 2;
 		y *= leftRight == LeftRight.Left ? 1 : -1;
-		camera.CutCamera(new Vector2(x, y));
+		camera.CutCamera(new Vector2(x, y), 3);
 
-		Collider[] targets = Physics.OverlapBox(transform.position + (transform.forward * attackRange.localPosition.z), attackRange.lossyScale, transform.rotation, enemyMask);
+		Collider[] targets = Physics.OverlapBox(transform.position, attackRange.lossyScale, transform.rotation, enemyMask);
 
-        int i;
+		int i;
 
         for (i = 0; i < targets.Length; i++)
         {
-            targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage, new Vector2(x, -y * 0.3f));
+            targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage, new Vector2(-x, -y * 0.3f));
         }
         if (i > 0)
         {
@@ -149,9 +149,9 @@ public class KatanaController : MonoBehaviour
 
 		animator.Play("Katana_StrongAttack", -1, 0);
 
-		camera.CutCamera(new Vector2(0, -1));
+		camera.CutCamera(new Vector2(0, -1), 6);
 
-		Collider[] targets = Physics.OverlapBox(transform.position + (transform.forward * attackRange.localPosition.z), attackRange.lossyScale, transform.rotation, enemyMask);
+		Collider[] targets = Physics.OverlapBox(transform.position, attackRange.lossyScale, transform.rotation, enemyMask);
 
 		int i;
 
@@ -195,15 +195,15 @@ public class KatanaController : MonoBehaviour
 		float x = leftRight == LeftRight.Left ? 1 : -1;
 		float y = attackNum - 2;
 		y *= leftRight == LeftRight.Left ? 1 : -1;
-		camera.CutCamera(new Vector2(x, y));
+		camera.CutCamera(new Vector2(x, y), 3);
 
-		Collider[] targets = Physics.OverlapBox(transform.position + (transform.forward * attackRange.localPosition.z), attackRange.lossyScale, transform.rotation, enemyMask);
+		Collider[] targets = Physics.OverlapBox(transform.position, attackRange.lossyScale, transform.rotation, enemyMask);
 
 		int i;
 
 		for (i = 0; i < targets.Length; i++)
 		{
-			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 1.5f, new Vector2(x, -y * 0.3f));
+			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 1.5f, new Vector2(-x, -y * 0.3f));
 		}
 		if (i > 0)
 		{
@@ -223,6 +223,6 @@ public class KatanaController : MonoBehaviour
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireCube(transform.position + (transform.forward * attackRange.localPosition.z), attackRange.lossyScale);
+		Gizmos.DrawWireCube(attackRange.position, attackRange.lossyScale);
 	}
 }
