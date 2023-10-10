@@ -10,24 +10,36 @@ public class UIController : MonoBehaviour
     public Image bossSubHP;
     public Image bossD;
     public TextMeshProUGUI bossName;
-    [SerializeField] private Image[] HitPanel;
+    [SerializeField] Transform hitEffect;
+    private List<Image> hitEffects = new List<Image>();
     [SerializeField] private float hitTime = 0.5f;
+    private float alpha = 1;
 
-    public void HitEffect()
+    private void Start()
     {
+        print(hitEffect.childCount);
+        for (int i = 0; i < hitEffect.childCount; i++)
+        {
+            hitEffects.Add(hitEffect.GetChild(i).GetComponent<Image>());
+        }
+    }
+
+    public void HitEffect(float a)
+    {
+        alpha = a;
         StopCoroutine("Hit");
         StartCoroutine("Hit");
     }
 
     private IEnumerator Hit()
     {
-        float a = 1;
+        float a = alpha;
         float currentTime = 0;
-        HitPanel[0].gameObject.SetActive(true);
+        hitEffect.gameObject.SetActive(true);
 
-		for (int i = 1; i < HitPanel.Length; i++)
+		for (int i = 0; i < hitEffects.Count; i++)
 		{
-			HitPanel[i].color = new Color(0, 0, 0, a);
+			hitEffects[i].color = new Color(0, 0, 0, a);
 		}
 
 		while (true)
@@ -35,21 +47,21 @@ public class UIController : MonoBehaviour
             currentTime += Time.deltaTime;
             if (currentTime < hitTime)
             {
-                a = Mathf.Lerp(1, 0, currentTime / hitTime);
+                a = Mathf.Lerp(alpha, 0, currentTime / hitTime);
 
-                HitPanel[0].color = new Color(0, 0, 0, a);
+                hitEffects[0].color = new Color(0, 0, 0, a);
             }
             else
             {
-                a = Mathf.Lerp(1, 0, (currentTime - hitTime) / 0.1f);
+                a = Mathf.Lerp(alpha, 0, (currentTime - hitTime) / 0.1f);
 
-                for (int i = 1; i < HitPanel.Length; i++)
+                for (int i = 0; i < hitEffects.Count; i++)
                 {
-                    HitPanel[i].color = new Color(0, 0, 0, a);
+                    hitEffects[i].color = new Color(0, 0, 0, a);
                 }
                 if (currentTime >= hitTime + 0.1f)
                 {
-                    HitPanel[0].gameObject.SetActive(false);
+                    hitEffect.gameObject.SetActive(false);
                     yield break;
                 }
             }
