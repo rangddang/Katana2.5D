@@ -126,19 +126,7 @@ public class KatanaController : MonoBehaviour
 		y *= leftRight == LeftRight.Left ? 1 : -1;
 		camera.CutCamera(new Vector2(x, y), 3);
 
-		Collider[] targets = Physics.OverlapBox(transform.position, attackRange.lossyScale, transform.rotation, enemyMask);
-
-		int i;
-
-        for (i = 0; i < targets.Length; i++)
-        {
-            targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage, new Vector2(-x, -y * 0.3f));
-        }
-        if (i > 0)
-        {
-            camera.ShakeCamera(0.2f , 0.4f);
-            //player.SlowTime();
-        }
+		baseAttack(1f, -x, 0.3f * y);
 
 		attackTime = 0;
 	}
@@ -149,21 +137,12 @@ public class KatanaController : MonoBehaviour
 
 		animator.Play("Katana_StrongAttack", -1, 0);
 
-		camera.CutCamera(new Vector2(0, -1), 6);
+		float x = 0;
+		float y = -1;
 
-		Collider[] targets = Physics.OverlapBox(transform.position, attackRange.lossyScale, transform.rotation, enemyMask);
+		camera.CutCamera(new Vector2(x, y), 6);
 
-		int i;
-
-		for (i = 0; i < targets.Length; i++)
-		{
-			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 4f, new Vector2(0,1));
-		}
-		if (i > 0)
-		{
-			camera.ShakeCamera(0.3f, 0.6f);
-			//player.SlowTime();
-		}
+		baseAttack(4f, x, y);
 
 		attackTime = 0;
 	}
@@ -186,7 +165,7 @@ public class KatanaController : MonoBehaviour
 		Count();
 	}
 
-	private void Count()
+	public void Count()
 	{
 		animator.SetBool("IsAttack", true);
 
@@ -197,21 +176,35 @@ public class KatanaController : MonoBehaviour
 		y *= leftRight == LeftRight.Left ? 1 : -1;
 		camera.CutCamera(new Vector2(x, y), 3);
 
-		Collider[] targets = Physics.OverlapBox(transform.position, attackRange.lossyScale, transform.rotation, enemyMask);
+		baseAttack(1.5f, -x, 0.3f * y);
+
+		attackTime = 0;
+	}
+
+	private void baseAttack(float damage, float x, float y)
+    {
+		Collider[] targets = Physics.OverlapBox(transform.position, attackRange.lossyScale, transform.rotation);
 
 		int i;
+		bool hitEnemy = false;
 
 		for (i = 0; i < targets.Length; i++)
 		{
-			targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * 1.5f, new Vector2(-x, -y * 0.3f));
+            if (targets[i].CompareTag("Enemy"))
+            {
+				hitEnemy = true;
+				targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * damage, new Vector2(x, y));
+            }
+			else if (targets[i].CompareTag("Reed"))
+            {
+				targets[i].GetComponent<Reed>().Breaked(x, y);
+			}
 		}
-		if (i > 0)
+		if (hitEnemy)
 		{
-			camera.ShakeCamera(0.2f, 0.4f);
+			camera.ShakeCamera(0.25f, 0.5f);
 			//player.SlowTime();
 		}
-
-		attackTime = 0;
 	}
 
 	public void Parrying()
@@ -220,9 +213,9 @@ public class KatanaController : MonoBehaviour
 		animator.Play("Katana_Parrying");
 	}
 
-	private void OnDrawGizmos()
-	{
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireCube(attackRange.position, attackRange.lossyScale);
-	}
+	//private void OnDrawGizmos()
+	//{
+	//	Gizmos.color = Color.yellow;
+	//	Gizmos.DrawWireCube(attackRange.position, attackRange.lossyScale);
+	//}
 }

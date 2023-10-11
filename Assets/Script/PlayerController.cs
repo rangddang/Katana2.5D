@@ -108,13 +108,13 @@ public class PlayerController : MonoBehaviour
         {
             status.health -= damage;
             ui.HitEffect(1);
-            camera.ShakeCamera(0.3f, 0.8f);
+            camera.ShakeCamera(0.4f, 0.5f);
         }
         else if (katana.parryingType == ParryingType.Parrying)
         {
             status.health -= damage * 0.3f;
 			ui.HitEffect(0.4f);
-			camera.ShakeCamera(0.3f, 0.5f);
+			camera.ShakeCamera(0.25f, 0.5f);
         }
         else if (katana.parryingType == ParryingType.PerfectParrying)
         {
