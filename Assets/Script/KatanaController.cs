@@ -188,18 +188,19 @@ public class KatanaController : MonoBehaviour
 		int i;
 		bool hitEnemy = false;
 
-		for (i = 0; i < targets.Length; i++)
-		{
-            if (targets[i].CompareTag("Enemy"))
-            {
+		foreach(Collider c in targets)
+        {
+			if (c.CompareTag("Enemy"))
+			{
 				hitEnemy = true;
-				targets[i].transform.parent.GetComponent<Enemy>().Hit(player.status.damage * damage, new Vector2(x, y));
-            }
-			else if (targets[i].CompareTag("Reed"))
-            {
-				targets[i].GetComponent<Reed>().Breaked(x, y);
+				c.transform.parent.GetComponent<Enemy>().Hit(player.status.damage * damage, new Vector2(x, y));
+			}
+			else if (c.CompareTag("Reed"))
+			{
+				c.GetComponent<Reed>().Breaked(x, y);
 			}
 		}
+
 		if (hitEnemy)
 		{
 			camera.ShakeCamera(0.25f, 0.5f);
