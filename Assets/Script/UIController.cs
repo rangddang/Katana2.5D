@@ -22,7 +22,7 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        print(hitEffect.childCount);
+        //print(hitEffect.childCount);
         for (int i = 0; i < hitEffect.childCount; i++)
         {
             hitEffects.Add(hitEffect.GetChild(i).GetComponent<Image>());
