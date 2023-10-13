@@ -3316,15 +3316,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3115244300314147662, guid: a73059b5bd66c2d41b44b273075234cc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.128
       objectReference: {fileID: 0}
     - target: {fileID: 3115244300314147662, guid: a73059b5bd66c2d41b44b273075234cc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7
+      value: 0.68
       objectReference: {fileID: 0}
     - target: {fileID: 3115244300314147662, guid: a73059b5bd66c2d41b44b273075234cc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.9
+      value: 4.757
       objectReference: {fileID: 0}
     - target: {fileID: 3115244300314147662, guid: a73059b5bd66c2d41b44b273075234cc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3354,6 +3354,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6331531683468897714, guid: a73059b5bd66c2d41b44b273075234cc, type: 3}
+      propertyPath: m_Size.y
+      value: 1.35
+      objectReference: {fileID: 0}
     - target: {fileID: 6607285874378117964, guid: a73059b5bd66c2d41b44b273075234cc, type: 3}
       propertyPath: m_Name
       value: Reed
@@ -3367,6 +3371,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 692863311}
   - {fileID: 2008487276}
   - {fileID: 705507995}
   - {fileID: 267987652}
@@ -3376,4 +3381,3 @@ SceneRoots:
   - {fileID: 1697128898}
   - {fileID: 1414931617}
   - {fileID: 862994289281273894}
-  - {fileID: 692863311}
