@@ -183,13 +183,19 @@ public class KatanaController : MonoBehaviour
 
 	private void baseAttack(float damage, float x, float y)
     {
+		StartCoroutine(WaitForBaseAttack(damage, x, y));
+	}
+
+	private IEnumerator WaitForBaseAttack(float damage, float x, float y)
+    {
+		yield return new WaitForSeconds(0.08f);
 		Collider[] targets = Physics.OverlapBox(transform.position, attackRange.lossyScale, transform.rotation);
 
 		int i;
 		bool hitEnemy = false;
 
-		foreach(Collider c in targets)
-        {
+		foreach (Collider c in targets)
+		{
 			if (c.CompareTag("Enemy"))
 			{
 				hitEnemy = true;
@@ -197,13 +203,13 @@ public class KatanaController : MonoBehaviour
 			}
 			else if (c.CompareTag("Reed"))
 			{
-				c.GetComponent<Reed>().Breaked(x, y);
+				c.GetComponent<Reed>().Breaked(x * 0.4f, -0.3f);
 			}
 		}
 
 		if (hitEnemy)
 		{
-			camera.ShakeCamera(0.25f, 0.5f);
+			camera.ShakeCamera(0.18f, 0.6f);
 			//player.SlowTime();
 		}
 	}

@@ -113,12 +113,14 @@ public class PlayerController : MonoBehaviour
         else if (katana.parryingType == ParryingType.Parrying)
         {
             status.health -= damage * 0.3f;
-			ui.HitEffect(0.4f);
+            ui.ParryingEffect(0.1f);
+            ui.HitEffect(0.4f);
 			camera.ShakeCamera(0.25f, 0.5f);
         }
         else if (katana.parryingType == ParryingType.PerfectParrying)
         {
-			camera.ShakeCamera(0.2f, 0.3f);
+            ui.ParryingEffect(0.5f);
+            camera.ShakeCamera(0.2f, 0.3f);
 			katana.parryingSuccess = false;
 			katana.parryingSuccess = true;
 		}

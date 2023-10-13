@@ -94,7 +94,7 @@ public class Enemy : MonoBehaviour
         }
         GameObject effect = Instantiate(hitEffect);
         effect.transform.position = transform.position;
-        effect.transform.rotation = Quaternion.Euler(-(90 * dir.y), transform.eulerAngles.y + (90 * dir.x), 0);
+        effect.transform.rotation = Quaternion.Euler((90 * dir.y), transform.eulerAngles.y + (90 * dir.x), 0);
         if(currentHealth <= 0)
         {
 
