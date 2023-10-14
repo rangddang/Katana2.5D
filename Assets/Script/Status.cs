@@ -6,6 +6,5 @@ public class Status : MonoBehaviour
 {
     public float health;
     public float damage;
-	public float walkSpeed;
-    public float runSpeed;
+	public float speed;
 }

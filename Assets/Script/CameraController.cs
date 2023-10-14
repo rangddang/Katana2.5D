@@ -9,22 +9,49 @@ public class CameraController : MonoBehaviour
 	private float cutPower = 0.3f;
 	[SerializeField] private float cutTime = 0.3f;
 	[SerializeField] private float rotateSize = 5;
+    [SerializeField] private float dashZoom = 80f;
+
     private Camera camera;
-    private float cameraRotate;
+    private Camera subCam;
+
     private Vector2 shakeRotate;
     private Vector2 cutRotate;
-
     private Vector2 cutDir;
+
+    private float cameraRotate;
+    private float cameraZoom;
+    private float offsetZoom;
+
+
 
     private void Awake()
     {
         camera = Camera.main;
+        subCam = transform.GetChild(0).GetComponent<Camera>();
+    }
+
+    private void Start()
+    {
+        offsetZoom = camera.fieldOfView;
+        cameraZoom = offsetZoom;
     }
 
     private void Update()
     {
 		transform.localRotation = Quaternion.Euler(shakeRotate.y + cutRotate.y, shakeRotate.x + cutRotate.x, cameraRotate * rotateSize);
+        camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, cameraZoom, Time.deltaTime * 20);
+        subCam.fieldOfView = camera.fieldOfView;
 	}
+
+    public void ZoomInCamera(float zoomSize)
+    {
+        cameraZoom = zoomSize;
+    }
+
+    public void ZoomOutCamera()
+    {
+        cameraZoom = offsetZoom;
+    }
 
     public void ShakeCamera(float time, float power)
     {
@@ -44,7 +71,11 @@ public class CameraController : MonoBehaviour
     {
         cutDir = dir.normalized;
         cutPower = power;
-		StopCoroutine("CutCam");
+
+        //StopCoroutine("Zoom");
+        //StartCoroutine("Zoom");
+
+        StopCoroutine("CutCam");
 		StartCoroutine("CutCam");
 
     }
@@ -81,7 +112,7 @@ public class CameraController : MonoBehaviour
         Vector2 startPos = Vector2.zero;
         Vector2 endPos = cutDir * cutPower;
 
-		while (true)
+        while (true)
         {
             currentTime += Time.deltaTime;
             if (currentTime < cutTime / 2)
@@ -98,5 +129,12 @@ public class CameraController : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    private IEnumerator Zoom()
+    {
+        ZoomInCamera(65f);
+        yield return new WaitForSeconds(0.1f);
+        ZoomOutCamera();
     }
 }

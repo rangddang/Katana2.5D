@@ -20,11 +20,17 @@ public class PlayerController : MonoBehaviour
 
     public Status status;
 
+    public bool isDash;
+
     private float rotateX;
     private float runSin;
     private float runSize;
     private float idleSin;
     private float hor;
+
+    private bool dashCheck;
+
+    private Vector3 dashDir;
 
     private void Awake()
     {
@@ -43,12 +49,35 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
-        Move(new Vector3(horizontal, 0, vertical));
+        if (!isDash)
+        {
+            if (dashCheck)
+            {
+                dashCheck = false;
+                camera.ZoomOutCamera();
+            }
+            if (horizontal != 0 || vertical != 0)
+            {
+                dashDir = new Vector3(horizontal, 0, vertical);
+                dashDir = ((dashDir.x * transform.right) + (dashDir.z * transform.forward)).normalized;
+            }
+            Move(new Vector3(horizontal, 0, vertical));
+        }
 
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
         Rotate(mouseX * sensitivity, mouseY * sensitivity);
+
+        if (isDash)
+        {
+            if (!dashCheck)
+            {
+                dashCheck = true;
+                camera.ZoomInCamera(75f);
+            }
+            Dash();
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -77,7 +106,7 @@ public class PlayerController : MonoBehaviour
     {
         hor = Mathf.Lerp(hor, dir.x, Time.deltaTime * 10);
 
-        currentMoveSpeed = katana.katanaOn ? status.walkSpeed : status.runSpeed;
+        currentMoveSpeed = katana.katanaOn ? status.speed : status.speed * 2.5f;
 
         Vector3 moveDir = ((dir.x * transform.right) + (dir.z * transform.forward)).normalized;
 
@@ -101,6 +130,12 @@ public class PlayerController : MonoBehaviour
         }
         camera.MovingCamera(-dir.x);
 	}
+
+    private void Dash()
+    {
+        float dashSpeed = currentMoveSpeed == status.speed ? 2.8f : 1.7f;
+        character.Move(dashDir * currentMoveSpeed * Time.deltaTime * dashSpeed);
+    }
 
     public void Hit(float damage)
     {

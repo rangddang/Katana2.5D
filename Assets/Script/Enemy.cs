@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
 
     public virtual void Move()
     {
-        currentMoveSpeed = status.walkSpeed;
+        currentMoveSpeed = status.speed;
 
         transform.position += transform.forward * Time.deltaTime * currentMoveSpeed;
         animator.SetBool("IsWalk", true);

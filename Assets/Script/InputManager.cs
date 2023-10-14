@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    [SerializeField] private PlayerController player;
     [SerializeField] private KatanaController katana;
     [SerializeField] private float strongAttackTime = 0.2f;
 
@@ -27,7 +28,10 @@ public class InputManager : MonoBehaviour
             Attack();
             Parrying();
         }
-
+        if (Input.GetKeyDown(dashKey))
+        {
+            Dash();
+        }
 	}
 
     private void Attack()
@@ -103,4 +107,19 @@ public class InputManager : MonoBehaviour
 			katana.parryingType = ParryingType.None;
 		}
 	}
+
+    private void Dash()
+    {
+        StopCoroutine("IsDash");
+        StartCoroutine("IsDash");
+    }
+
+    private IEnumerator IsDash()
+    {
+        float dashTime = 0.40f;
+
+        player.isDash = true;
+        yield return new WaitForSeconds(dashTime);
+        player.isDash = false;
+    }
 }
