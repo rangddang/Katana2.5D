@@ -1554,7 +1554,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cutTime: 0.2
   rotateSize: 1
-  dashZoom: 75
+  dashZoom: 73
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
