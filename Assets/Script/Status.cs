@@ -7,4 +7,5 @@ public class Status : MonoBehaviour
     public float health;
     public float damage;
 	public float speed;
+    public float toughness;
 }

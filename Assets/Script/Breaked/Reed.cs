@@ -6,11 +6,24 @@ public class Reed : BreakedObject
 {
     private Transform player;
 
+    private Animator anim;
+    
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
+
     public override void Breaked(float x, float y)
     {
-        GameObject effect = Instantiate(breakedEffect);
-        effect.transform.position = transform.position;
-        effect.transform.rotation = Quaternion.Euler((90 * y), transform.eulerAngles.y + -(90 * x), 0);
+        if (!isBreaked)
+        {
+            GameObject effect = Instantiate(breakedEffect);
+            effect.transform.position = transform.position;
+            effect.transform.rotation = Quaternion.Euler((90 * y), transform.eulerAngles.y + -(90 * x), 0);
+            isBreaked = true;
+            anim.SetBool("IsBreaked", isBreaked);
+        }
     }
 
     //private void OnTriggerEnter(Collider other)

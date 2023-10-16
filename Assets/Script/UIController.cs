@@ -8,7 +8,7 @@ public class UIController : MonoBehaviour
 {
     public Image bossHP;
     public Image bossSubHP;
-    public Image bossD;
+    public Image bossToughness;
     public TextMeshProUGUI bossName;
 
     [SerializeField] private Transform hitEffect;

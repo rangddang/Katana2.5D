@@ -10,12 +10,15 @@ public class Enemy : MonoBehaviour
 
     public float currentHealth;
     public float currentMoveSpeed;
+    public float currentToughness;
+
+    public bool isDead;
 
     [SerializeField] protected Transform target;
     [SerializeField] protected GameObject hitEffect;
     [SerializeField] protected AnimationClip attackAnim;
-    [SerializeField] private float attackDistance = 1.5f;
-    [SerializeField] private float attackDelay = 1.5f;
+    [SerializeField] protected float attackDistance = 3f;
+    [SerializeField] protected float attackDelay = 1.5f;
     protected Rigidbody rigid;
     
     private float attackTime;
@@ -31,10 +34,14 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         currentHealth = status.health;
+        currentToughness = status.toughness;
     }
 
     private void Update()
     {
+        if (isDead) return;
+
+
         if(target != null)
         {
             if (!isAttack)
@@ -88,6 +95,7 @@ public class Enemy : MonoBehaviour
     public virtual void Hit(float damage, Vector2 dir)
     {
         currentHealth -= damage;
+        currentToughness -= damage * 0.5f;
         if (!isAttack)
         {
             animator.Play("Enemy_Hit");
@@ -97,13 +105,13 @@ public class Enemy : MonoBehaviour
         effect.transform.rotation = Quaternion.Euler((90 * dir.y), transform.eulerAngles.y + (90 * dir.x), 0);
         if(currentHealth <= 0)
         {
-
+            Dead();
         }
     }
 
     public virtual void Dead()
     {
-
+        isDead = true;
     }
 
     private IEnumerator AttackTarget()

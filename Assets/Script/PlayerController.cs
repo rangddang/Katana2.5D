@@ -15,12 +15,17 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private KatanaController katana;
     [SerializeField] private UIController ui;
+    [SerializeField] protected Animator dashEffect;
+
     private CameraController camera;
     private CharacterController character;
 
     public Status status;
 
+    public bool isInvincibility;
+    public bool isMove;
     public bool isDash;
+    public float dashDelay = 1.5f;
 
     private float rotateX;
     private float runSin;
@@ -49,14 +54,21 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            OffCursor();
+        }
+
         if (!isDash)
         {
             if (dashCheck)
             {
+                isInvincibility = false;
                 dashCheck = false;
                 camera.ZoomOutCamera();
             }
-            if (horizontal != 0 || vertical != 0)
+            dashDir = transform.forward;
+            if (isMove)
             {
                 dashDir = new Vector3(horizontal, 0, vertical);
                 dashDir = ((dashDir.x * transform.right) + (dashDir.z * transform.forward)).normalized;
@@ -73,8 +85,10 @@ public class PlayerController : MonoBehaviour
         {
             if (!dashCheck)
             {
+                isInvincibility = true;
                 dashCheck = true;
                 camera.ZoomInCamera(75f);
+                dashEffect.SetTrigger("Play");
             }
             Dash();
         }
@@ -98,8 +112,11 @@ public class PlayerController : MonoBehaviour
         float clampX = Mathf.Clamp(-mouseX * 0.1f, -clampRotate, clampRotate);
         float clampY = Mathf.Clamp(mouseY * 0.1f, -clampRotate, clampRotate);
 
-		katanaPos.localRotation *= Quaternion.Euler(clampY , clampX, 0);
-		katanaPos.localRotation = Quaternion.Lerp(katanaPos.localRotation, Quaternion.Euler(0,0, katanaPos.localRotation.z), Time.deltaTime * 15);
+        if (!isMove)
+        {
+            katanaPos.localRotation *= Quaternion.Euler(clampY, clampX, 0);
+            katanaPos.localRotation = Quaternion.Lerp(katanaPos.localRotation, Quaternion.Euler(0, 0, katanaPos.localRotation.z), Time.deltaTime * 15);
+        }
     }
 
     private void Move(Vector3 dir)
@@ -115,6 +132,7 @@ public class PlayerController : MonoBehaviour
 
         if (dir != Vector3.zero)
         {
+            isMove = true;
             idleSin = 0;
             runSin += Time.deltaTime * currentMoveSpeed;
             runSize = Mathf.Lerp(runSize, 1, Time.deltaTime * 10);
@@ -123,6 +141,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            isMove = false;
             runSin = 0;
             idleSin += Time.deltaTime * 1.3f;
             runSize = Mathf.Lerp(runSize, 0, Time.deltaTime * 20);
@@ -133,12 +152,14 @@ public class PlayerController : MonoBehaviour
 
     private void Dash()
     {
-        float dashSpeed = currentMoveSpeed == status.speed ? 2.8f : 1.7f;
+        float dashSpeed = currentMoveSpeed == status.speed ? 2.5f : 2f;
         character.Move(dashDir * currentMoveSpeed * Time.deltaTime * dashSpeed);
     }
 
     public void Hit(float damage)
     {
+        if (isInvincibility) return;
+
         if (katana.parryingType == ParryingType.None)
         {
             status.health -= damage;

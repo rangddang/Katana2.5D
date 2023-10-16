@@ -20,6 +20,13 @@ public class InputManager : MonoBehaviour
     private float parryingTime;
     private float attackHoldTime;
     private bool isParrying = false;
+    private float dashDelay;
+    private float dashTime;
+
+    private void Start()
+    {
+        dashDelay = player.dashDelay;
+    }
 
     private void Update()
     {
@@ -28,10 +35,11 @@ public class InputManager : MonoBehaviour
             Attack();
             Parrying();
         }
-        if (Input.GetKeyDown(dashKey))
+        if (Input.GetKeyDown(dashKey) && !player.isDash && dashTime > dashDelay)
         {
             Dash();
         }
+        dashTime += Time.deltaTime;
 	}
 
     private void Attack()
@@ -110,6 +118,7 @@ public class InputManager : MonoBehaviour
 
     private void Dash()
     {
+        dashTime = 0;
         StopCoroutine("IsDash");
         StartCoroutine("IsDash");
     }

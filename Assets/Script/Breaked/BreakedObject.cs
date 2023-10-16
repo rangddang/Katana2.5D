@@ -5,12 +5,17 @@ using UnityEngine;
 public class BreakedObject : MonoBehaviour
 {
     [SerializeField] protected GameObject breakedEffect;
+    protected bool isBreaked = false;
 
     public virtual void Breaked(float x, float y)
     {
-        GameObject effect = Instantiate(breakedEffect);
-        effect.transform.position = transform.position;
-        gameObject.SetActive(false);
+        if (!isBreaked)
+        {
+            GameObject effect = Instantiate(breakedEffect);
+            effect.transform.position = transform.position;
+            gameObject.SetActive(false);
+            isBreaked = true;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
