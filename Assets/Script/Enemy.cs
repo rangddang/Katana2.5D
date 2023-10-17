@@ -92,7 +92,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public virtual void Hit(float damage, Vector2 dir)
+    public virtual void Hit(float damage, Quaternion dir)
     {
         currentHealth -= damage;
         currentToughness -= damage * 0.5f;
@@ -102,7 +102,7 @@ public class Enemy : MonoBehaviour
         }
         GameObject effect = Instantiate(hitEffect);
         effect.transform.position = transform.position;
-        effect.transform.rotation = Quaternion.Euler((90 * dir.y), transform.eulerAngles.y + (90 * dir.x), 0);
+        effect.transform.rotation = dir;
         if(currentHealth <= 0)
         {
             Dead();

@@ -194,19 +194,23 @@ public class KatanaController : MonoBehaviour
 		int i;
 		bool hitEnemy = false;
 
+		Quaternion q;
+
 		foreach (Collider c in targets)
 		{
 			if (c.CompareTag("Enemy"))
 			{
+				q = Quaternion.Euler((90 * y), player.transform.eulerAngles.y + (-x * 90), 0);
 				hitEnemy = true;
-				c.transform.parent.GetComponent<Enemy>().Hit(player.status.damage * damage, new Vector2(x, y));
+				c.transform.parent.GetComponent<Enemy>().Hit(player.status.damage * damage, q);
 			}
 			else if (c.CompareTag("Reed"))
 			{
-				c.GetComponent<Reed>().Breaked(x * 0.4f, -0.3f);
+				q = Quaternion.Euler(-60, player.transform.eulerAngles.y + (-x * 90), 0);
+				c.GetComponent<Reed>().Breaked(q);
 			}
 		}
-
+		
 		if (hitEnemy)
 		{
 			camera.ShakeCamera(0.18f, 0.6f);

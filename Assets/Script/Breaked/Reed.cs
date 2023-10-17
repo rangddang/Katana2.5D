@@ -14,13 +14,13 @@ public class Reed : BreakedObject
         anim = GetComponent<Animator>();
     }
 
-    public override void Breaked(float x, float y)
+    public override void Breaked(Quaternion dir)
     {
         if (!isBreaked)
         {
             GameObject effect = Instantiate(breakedEffect);
             effect.transform.position = transform.position;
-            effect.transform.rotation = Quaternion.Euler((90 * y), transform.eulerAngles.y + -(90 * x), 0);
+            effect.transform.rotation = dir;
             isBreaked = true;
             anim.SetBool("IsBreaked", isBreaked);
         }

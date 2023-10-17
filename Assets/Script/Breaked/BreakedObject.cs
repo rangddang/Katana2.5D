@@ -7,7 +7,7 @@ public class BreakedObject : MonoBehaviour
     [SerializeField] protected GameObject breakedEffect;
     protected bool isBreaked = false;
 
-    public virtual void Breaked(float x, float y)
+    public virtual void Breaked(Quaternion dir)
     {
         if (!isBreaked)
         {
