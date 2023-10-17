@@ -92,10 +92,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public virtual void Hit(float damage, Quaternion dir)
+    public virtual void Hit(float damage, float toughnessDamage, Quaternion dir)
     {
         currentHealth -= damage;
-        currentToughness -= damage * 0.5f;
+        currentToughness -= toughnessDamage;
         if (!isAttack)
         {
             animator.Play("Enemy_Hit");

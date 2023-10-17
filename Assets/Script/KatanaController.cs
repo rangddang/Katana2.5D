@@ -126,7 +126,7 @@ public class KatanaController : MonoBehaviour
 		y *= leftRight == LeftRight.Left ? 1 : -1;
 		camera.CutCamera(new Vector2(x, y), 3);
 
-		baseAttack(1f, -x, 0.3f * y);
+		baseAttack(1f, 1f, -x, 0.3f * y);
 
 		attackTime = 0;
 	}
@@ -142,7 +142,7 @@ public class KatanaController : MonoBehaviour
 
 		camera.CutCamera(new Vector2(x, y), 6);
 
-		baseAttack(4f, x, y);
+		baseAttack(5f, 3f, x, y);
 
 		attackTime = 0;
 	}
@@ -176,17 +176,17 @@ public class KatanaController : MonoBehaviour
 		y *= leftRight == LeftRight.Left ? 1 : -1;
 		camera.CutCamera(new Vector2(x, y), 3);
 
-		baseAttack(1.5f, -x, 0.3f * y);
+		baseAttack(1.5f, 2.5f, -x, 0.3f * y);
 
 		attackTime = 0;
 	}
 
-	private void baseAttack(float damage, float x, float y)
+	private void baseAttack(float damage, float toughnessDamage, float x, float y)
     {
-		StartCoroutine(WaitForBaseAttack(damage, x, y));
+		StartCoroutine(WaitForBaseAttack(damage, toughnessDamage, x, y));
 	}
 
-	private IEnumerator WaitForBaseAttack(float damage, float x, float y)
+	private IEnumerator WaitForBaseAttack(float damage, float toughnessDamage, float x, float y)
     {
 		yield return new WaitForSeconds(0.08f);
 		Collider[] targets = Physics.OverlapBox(transform.position, attackRange.lossyScale, transform.rotation);
@@ -202,7 +202,7 @@ public class KatanaController : MonoBehaviour
 			{
 				q = Quaternion.Euler((90 * y), player.transform.eulerAngles.y + (-x * 90), 0);
 				hitEnemy = true;
-				c.transform.parent.GetComponent<Enemy>().Hit(player.status.damage * damage, q);
+				c.transform.parent.GetComponent<Enemy>().Hit(player.status.damage * damage, toughnessDamage, q);
 			}
 			else if (c.CompareTag("Reed"))
 			{
