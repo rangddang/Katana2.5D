@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private PlayerController player;
     [SerializeField] private KatanaController katana;
     [SerializeField] private float strongAttackTime = 0.2f;
@@ -30,6 +31,11 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            gameManager.ReverseColors();
+        }
+
         if (katana.katanaOn)
         {
             Attack();

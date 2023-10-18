@@ -6,6 +6,8 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
+    public GameObject bossUI;
+
     public Image bossHP;
     public Image bossSubHP;
     public Image bossToughness;
