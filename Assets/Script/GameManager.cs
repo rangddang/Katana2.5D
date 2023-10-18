@@ -34,12 +34,9 @@ public class GameManager : MonoBehaviour
         }
 
         volume.weight = isReverse ? 1 : 0;
+        ui.weakness.gameObject.SetActive(isReverse);
+        ui.weakness.GetComponent<Animator>().SetBool("Play", isReverse);
         ui.bossUI.gameObject.SetActive(!isReverse);
-    }
-
-    public void UndoColors()
-    {
-
     }
 
     private IEnumerator Reverse()

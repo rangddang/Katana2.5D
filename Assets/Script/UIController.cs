@@ -6,12 +6,15 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
+    [SerializeField] private Enemy boss;
     public GameObject bossUI;
 
     public Image bossHP;
     public Image bossSubHP;
     public Image bossToughness;
     public TextMeshProUGUI bossName;
+
+    public RectTransform weakness;
 
     [SerializeField] private Transform hitEffect;
     private List<Image> hitEffects = new List<Image>();
@@ -29,6 +32,11 @@ public class UIController : MonoBehaviour
         {
             hitEffects.Add(hitEffect.GetChild(i).GetComponent<Image>());
         }
+    }
+
+    private void Update()
+    {
+        weakness.position = Camera.main.WorldToScreenPoint(boss.transform.position);
     }
 
     public void ParryingEffect(float a)

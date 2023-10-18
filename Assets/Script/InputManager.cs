@@ -113,11 +113,11 @@ public class InputManager : MonoBehaviour
 				katana.parryingType = ParryingType.Parrying;
 			}
         }
-        else if (!Input.GetKey(parryingKey) && isParrying && parryingTime > 0.2f)
+        else if (!Input.GetKey(parryingKey) && isParrying && parryingTime > 0.25f)
         {
             isParrying = false;
             parryingTime = 0;
-            parringDelay = 0.2f;
+            parringDelay = 0.25f;
 			katana.parryingType = ParryingType.None;
 		}
 	}
