@@ -5,6 +5,7 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private UIController uI;
     [SerializeField] private PlayerController player;
     [SerializeField] private KatanaController katana;
     [SerializeField] private float strongAttackTime = 0.2f;
@@ -35,7 +36,17 @@ public class InputManager : MonoBehaviour
         {
             gameManager.ReverseColors();
         }
+        if (Input.GetKeyDown(attackKey) && gameManager.isReverse)
+        {
+            uI.WeaknessAttackEffect();
+        }
 
+        if (gameManager.isReverse) return;
+
+        if (Input.GetKeyDown(katataOnOffKey))
+        {
+            katana.katanaOn = !katana.katanaOn;
+        }
         if (katana.katanaOn)
         {
             Attack();

@@ -6,7 +6,8 @@ using UnityEngine.Rendering;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private UIController ui;
-    [SerializeField] private Enemy boss;
+    public Enemy boss;
+    public PlayerController player;
     [SerializeField] private Volume volume;
     
 
@@ -27,10 +28,12 @@ public class GameManager : MonoBehaviour
         if (isReverse)
         {
             Time.timeScale = 0.1f;
+            player.sensitivity = 0.5f;
         }
         else
         {
             Time.timeScale = 1f;
+            player.sensitivity = 5f;
         }
 
         volume.weight = isReverse ? 1 : 0;

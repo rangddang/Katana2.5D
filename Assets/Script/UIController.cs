@@ -6,7 +6,7 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] private Enemy boss;
+    [SerializeField] private GameManager gameManager;
     public GameObject bossUI;
 
     public Image bossHP;
@@ -15,6 +15,8 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI bossName;
 
     public RectTransform weakness;
+    public Image weaknessPanel;
+    public GameObject breakedEffect;
 
     [SerializeField] private Transform hitEffect;
     private List<Image> hitEffects = new List<Image>();
@@ -36,7 +38,29 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
-        weakness.position = Camera.main.WorldToScreenPoint(boss.transform.position);
+        Vector3 playerPosition = gameManager.player.transform.position;
+        Vector3 enemyPosition = gameManager.boss.transform.position;
+
+        Vector3 directionToPlayer = (enemyPosition - playerPosition).normalized;
+
+        Vector3 playerForward = gameManager.player.transform.forward;
+
+        float dotProduct = Vector3.Dot(directionToPlayer, playerForward);
+
+        // 적에 자신에 앞에 있으면 약점이 따라가게 만들기
+        // (뒤에 있을때도 약점이 앞에 표시되는 버그 방지)
+        if(dotProduct > 0)
+        {
+            weakness.position = Camera.main.WorldToScreenPoint(gameManager.boss.transform.position);
+            breakedEffect.GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(gameManager.boss.transform.position);
+
+        }
+    }
+
+    public void WeaknessAttackEffect()
+    {
+        StopCoroutine("WeaknessEffect");
+        StartCoroutine("WeaknessEffect");
     }
 
     public void ParryingEffect(float a)
@@ -111,5 +135,60 @@ public class UIController : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    private IEnumerator WeaknessEffect()
+    {
+        float currentTime = 0;
+        float playTime = 0.7f;
+
+        float startRotate = -720;
+        float rotate = startRotate;
+        weaknessPanel.color = Color.black;
+        weaknessPanel.gameObject.SetActive(true);
+        weakness.rotation = Quaternion.Euler(0,0, startRotate);
+
+        while (true)
+        {
+            currentTime += Time.unscaledDeltaTime;
+
+            float t = currentTime / playTime;
+            t = Mathf.Sin(t * Mathf.PI * 0.5f);
+
+            rotate = Mathf.Lerp(startRotate, 0, t);
+            weakness.rotation = Quaternion.Euler(0, 0, rotate);
+
+            if(currentTime >= playTime)
+            {
+                StopCoroutine("BreakedEffect");
+                StartCoroutine("BreakedEffect");
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator BreakedEffect()
+    {
+        float playTime = 0.55f;
+        weakness.gameObject.SetActive(false);
+        breakedEffect.SetActive(true);
+
+        weaknessPanel.color = Color.white;
+        Camera.main.GetComponent<CameraController>().ShakeCamera(playTime * Time.timeScale, 1.5f);
+        yield return new WaitForSecondsRealtime(playTime);
+
+        breakedEffect.SetActive(false);
+        weaknessPanel.gameObject.SetActive(false);
+        gameManager.ReverseColors();
+        gameManager.boss.Hit(gameManager.boss.status.health / 7, 0, Quaternion.Euler(-90,0,0));
+        //while (true)
+        //{
+        //    if ()
+        //    {
+        //        yield break;
+        //    }
+        //    yield return null;
+        //}
     }
 }

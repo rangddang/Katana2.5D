@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public float sensitivity = 5;
     [SerializeField] private float currentMoveSpeed = 5;
-    [SerializeField] private float sensitivity = 10;
 
     [SerializeField] private float clampAngle = 70f;
 

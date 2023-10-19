@@ -41,6 +41,7 @@ public class KatanaController : MonoBehaviour
 	[SerializeField] private float attackWait = 0.7f;
 
     public bool katanaOn = false;
+	private bool saveKatanaOn = false;
 	public AttackType attackType;
 	public ParryingType parryingType;
 
@@ -58,14 +59,15 @@ public class KatanaController : MonoBehaviour
     {
 		attackTime += Time.deltaTime;
 
+		if (katanaOn != saveKatanaOn)
+		{
+			saveKatanaOn = katanaOn;
+			parryingType = ParryingType.None;
+			animator.SetBool("IsAttack", false);
+			animator.SetBool("KatanaOn", katanaOn);
+		}
 		if (parryingType == ParryingType.None)
 		{
-			if (Input.GetKeyDown(KeyCode.E))
-			{
-				katanaOn = !katanaOn;
-				animator.SetBool("IsAttack", false);
-				animator.SetBool("KatanaOn", katanaOn);
-			}
 			if (katanaOn)
 			{
 				if (attackType == AttackType.Attack)
@@ -82,7 +84,7 @@ public class KatanaController : MonoBehaviour
 				}
 			}
 		}
-		if (!(parryingType == ParryingType.None))
+		if (parryingType != ParryingType.None)
 		{
 			Parrying();
 		}
