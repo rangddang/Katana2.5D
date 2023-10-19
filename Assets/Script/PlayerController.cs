@@ -37,7 +37,6 @@ public class PlayerController : MonoBehaviour
     private bool dashCheck;
 
     private Vector3 dashDir;
-    private Quaternion saveRotate;
 
     private void Awake()
     {
@@ -81,8 +80,6 @@ public class PlayerController : MonoBehaviour
             float mouseY = Input.GetAxis("Mouse Y");
 
             Rotate(mouseX * sensitivity, mouseY * sensitivity);
-
-            saveRotate = transform.rotation;
         }
         else
         {

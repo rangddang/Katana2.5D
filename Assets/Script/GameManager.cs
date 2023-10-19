@@ -37,16 +37,14 @@ public class GameManager : MonoBehaviour
         }
 
         volume.weight = isReverse ? 1 : 0;
-        ui.weakness.gameObject.SetActive(isReverse);
-        ui.weakness.GetComponent<Animator>().SetBool("Play", isReverse);
         ui.bossUI.gameObject.SetActive(!isReverse);
     }
 
-    private IEnumerator Reverse()
+    public void OnWeakness(bool isOn)
     {
-        while (true)
-        {
-            yield return null;
-        }
+        ui.weakness.gameObject.SetActive(isOn);
+        ui.weakness.GetComponent<Animator>().speed = 1 / Time.timeScale;
+        ui.weakness.GetComponent<Animator>().SetBool("Play", isOn);
+
     }
 }

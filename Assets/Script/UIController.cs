@@ -145,6 +145,8 @@ public class UIController : MonoBehaviour
         float startRotate = -720;
         float rotate = startRotate;
 
+        gameManager.boss.weaknessCount--;
+
         gameManager.isBreakEffect = true;
 
         weaknessPanel.color = Color.black;
@@ -174,7 +176,7 @@ public class UIController : MonoBehaviour
     private IEnumerator BreakedEffect()
     {
         float playTime = 0.55f;
-        weakness.gameObject.SetActive(false);
+        gameManager.OnWeakness(false);
         breakedEffect.SetActive(true);
 
         weaknessPanel.color = Color.white;

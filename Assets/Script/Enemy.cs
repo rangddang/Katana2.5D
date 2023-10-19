@@ -14,6 +14,10 @@ public class Enemy : MonoBehaviour
 
     public bool isDead;
 
+    public int weaknessCount;
+    private int toughnessCount = 3;
+    private int maxToughnessCount;
+
     [SerializeField] protected GameManager gameManager;
     [SerializeField] protected Transform target;
     [SerializeField] protected GameObject hitEffect;
@@ -36,12 +40,12 @@ public class Enemy : MonoBehaviour
     {
         currentHealth = status.health;
         currentToughness = status.toughness;
+        maxToughnessCount = toughnessCount;
     }
 
     private void Update()
     {
         if (isDead) return;
-
 
         if(target != null && !gameManager.isReverse)
         {
@@ -106,6 +110,14 @@ public class Enemy : MonoBehaviour
         {
             animator.Play("Enemy_Hit");
         }
+        if(currentToughness <= ((status.toughness / maxToughnessCount) * (toughnessCount - 1)))
+        {
+            toughnessCount--;
+            weaknessCount++;
+            StopCoroutine("StartHit");
+            StartCoroutine("StartHit");
+        }
+
         GameObject effect = Instantiate(hitEffect);
         effect.transform.position = transform.position;
         effect.transform.rotation = dir;
@@ -129,4 +141,19 @@ public class Enemy : MonoBehaviour
         Attack();
         isAttack = false;
 	}
+
+    private IEnumerator StartHit()
+    {
+        while (true)
+        {
+            GameObject effect = Instantiate(hitEffect);
+            effect.transform.position = transform.position;
+            effect.transform.rotation = Quaternion.Euler(Random.Range(-45f, -90f), Random.Range(0f, 360f), 0);
+            if(weaknessCount < 1)
+            {
+                yield break;
+            }
+            yield return new WaitForSeconds(0.4f);
+        }
+    }
 }
