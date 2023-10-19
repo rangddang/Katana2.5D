@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
 
     public bool isDead;
 
+    [SerializeField] protected GameManager gameManager;
     [SerializeField] protected Transform target;
     [SerializeField] protected GameObject hitEffect;
     [SerializeField] protected AnimationClip attackAnim;
@@ -42,8 +43,9 @@ public class Enemy : MonoBehaviour
         if (isDead) return;
 
 
-        if(target != null)
+        if(target != null && !gameManager.isReverse)
         {
+            //print("아빠아직안잔다");
             if (!isAttack)
             {
                 attackTime += Time.deltaTime;
@@ -65,7 +67,11 @@ public class Enemy : MonoBehaviour
 		}
         else
         {
-			animator.SetBool("IsWalk", false);
+            //print("아빠잔다");
+            isAttack = false;
+            StopCoroutine("AttackTarget");
+            animator.Play("Enemy_Idle", -1, 0);
+            animator.SetBool("IsWalk", false);
 		}
     }
 

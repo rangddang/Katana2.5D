@@ -144,6 +144,9 @@ public class UIController : MonoBehaviour
 
         float startRotate = -720;
         float rotate = startRotate;
+
+        gameManager.isBreakEffect = true;
+
         weaknessPanel.color = Color.black;
         weaknessPanel.gameObject.SetActive(true);
         weakness.rotation = Quaternion.Euler(0,0, startRotate);
@@ -177,6 +180,8 @@ public class UIController : MonoBehaviour
         weaknessPanel.color = Color.white;
         Camera.main.GetComponent<CameraController>().ShakeCamera(playTime * Time.timeScale, 1.5f);
         yield return new WaitForSecondsRealtime(playTime);
+
+        gameManager.isBreakEffect = false;
 
         breakedEffect.SetActive(false);
         weaknessPanel.gameObject.SetActive(false);

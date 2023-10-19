@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform head;
     [SerializeField] private Transform katanaPos;
 
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private KatanaController katana;
     [SerializeField] private UIController ui;
     [SerializeField] protected Animator dashEffect;
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private bool dashCheck;
 
     private Vector3 dashDir;
+    private Quaternion saveRotate;
 
     private void Awake()
     {
@@ -51,13 +53,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (gameManager.isBreakEffect) return;
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            OffCursor();
-        }
 
         if (!isDash)
         {
@@ -76,10 +75,19 @@ public class PlayerController : MonoBehaviour
             Move(new Vector3(horizontal, 0, vertical));
         }
 
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        if (!gameManager.isReverse)
+        {
+            float mouseX = Input.GetAxis("Mouse X");
+            float mouseY = Input.GetAxis("Mouse Y");
 
-        Rotate(mouseX * sensitivity, mouseY * sensitivity);
+            Rotate(mouseX * sensitivity, mouseY * sensitivity);
+
+            saveRotate = transform.rotation;
+        }
+        else
+        {
+            LookEnemy();
+        }
 
         if (isDash)
         {
@@ -93,6 +101,10 @@ public class PlayerController : MonoBehaviour
             Dash();
         }
 
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            OffCursor();
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             OnCursor();
@@ -117,6 +129,18 @@ public class PlayerController : MonoBehaviour
             katanaPos.localRotation *= Quaternion.Euler(clampY, clampX, 0);
             katanaPos.localRotation = Quaternion.Lerp(katanaPos.localRotation, Quaternion.Euler(0, 0, katanaPos.localRotation.z), Time.deltaTime * 15);
         }
+    }
+
+    private void LookEnemy()
+    {
+        Vector3 playerPos = transform.position;
+        Vector3 enemyPos = gameManager.boss.transform.position;
+
+        Quaternion lookRotate = Quaternion.LookRotation(enemyPos - playerPos);
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, lookRotate, Time.unscaledDeltaTime * 10f);
+        rotateX = Mathf.Lerp(rotateX, 0, Time.unscaledDeltaTime * 10);
+        head.localRotation = Quaternion.Euler(rotateX, 0, 0);
     }
 
     private void Move(Vector3 dir)

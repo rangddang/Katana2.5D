@@ -9,9 +9,9 @@ public class GameManager : MonoBehaviour
     public Enemy boss;
     public PlayerController player;
     [SerializeField] private Volume volume;
-    
 
     public bool isReverse = false;
+    public bool isBreakEffect;
 
     private void Update()
     {
@@ -28,12 +28,12 @@ public class GameManager : MonoBehaviour
         if (isReverse)
         {
             Time.timeScale = 0.1f;
-            player.sensitivity = 0.5f;
+            //player.sensitivity = 0.5f;
         }
         else
         {
             Time.timeScale = 1f;
-            player.sensitivity = 5f;
+            //player.sensitivity = 5f;
         }
 
         volume.weight = isReverse ? 1 : 0;
