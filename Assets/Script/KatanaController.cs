@@ -144,7 +144,7 @@ public class KatanaController : MonoBehaviour
 
 		camera.CutCamera(new Vector2(x, y), 6);
 
-		baseAttack(5f, 3f, x, y);
+		baseAttack(3.5f, 2f, x, y);
 
 		attackTime = 0;
 	}
@@ -178,7 +178,7 @@ public class KatanaController : MonoBehaviour
 		y *= leftRight == LeftRight.Left ? 1 : -1;
 		camera.CutCamera(new Vector2(x, y), 3);
 
-		baseAttack(1.5f, 2.5f, -x, 0.3f * y);
+		baseAttack(1.5f, 1.7f, -x, 0.3f * y);
 
 		attackTime = 0;
 	}

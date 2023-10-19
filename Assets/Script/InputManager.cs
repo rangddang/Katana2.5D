@@ -37,7 +37,7 @@ public class InputManager : MonoBehaviour
             gameManager.ReverseColors();
             gameManager.OnWeakness(gameManager.isReverse);
         }
-        if (Input.GetKeyDown(attackKey) && gameManager.isReverse)
+        if (Input.GetKeyDown(attackKey) && gameManager.isReverse && !gameManager.isBreakEffect)
         {
             uI.WeaknessAttackEffect();
         }
