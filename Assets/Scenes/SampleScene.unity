@@ -3835,7 +3835,7 @@ MonoBehaviour:
   health: 10
   damage: 1
   speed: 5
-  toughness: 0
+  toughness: 3
 --- !u!143 &2040063548
 CharacterController:
   m_ObjectHideFlags: 0
