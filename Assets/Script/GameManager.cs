@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public PlayerController player;
     [SerializeField] private Volume volume;
 
+    public bool isWeaknessTime = false;
     public bool isReverse = false;
     public bool isBreakEffect;
 

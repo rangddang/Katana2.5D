@@ -187,6 +187,7 @@ public class UIController : MonoBehaviour
 
         breakedEffect.SetActive(false);
         weaknessPanel.gameObject.SetActive(false);
+        gameManager.isWeaknessTime = false;
         gameManager.ReverseColors(false);
         gameManager.boss.Hit(gameManager.boss.status.health / 7, 0, Quaternion.Euler(-90,0,0));
         //while (true)

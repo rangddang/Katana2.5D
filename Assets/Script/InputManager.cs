@@ -34,10 +34,11 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F) && gameManager.boss.weaknessCount > 0)
         {
-            gameManager.ReverseColors(!gameManager.isReverse);
-            gameManager.OnWeakness(gameManager.isReverse);
+            gameManager.isWeaknessTime = !gameManager.isWeaknessTime;
+            gameManager.ReverseColors(gameManager.isWeaknessTime);
+            gameManager.OnWeakness(gameManager.isWeaknessTime);
         }
-        if (Input.GetKeyDown(attackKey) && gameManager.isReverse && !gameManager.isBreakEffect)
+        if (Input.GetKeyDown(attackKey) && gameManager.isWeaknessTime && !gameManager.isBreakEffect)
         {
             uI.WeaknessAttackEffect();
         }
