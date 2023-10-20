@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float currentMoveSpeed = 5;
 
     [SerializeField] private float clampAngle = 70f;
+    [SerializeField] private float gravityScale = 1;
 
     [SerializeField] private Transform head;
     [SerializeField] private Transform katanaPos;
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private bool dashCheck;
 
     private Vector3 dashDir;
+    private Vector3 gravity;
 
     private void Awake()
     {
@@ -71,6 +73,7 @@ public class PlayerController : MonoBehaviour
                 dashDir = new Vector3(horizontal, 0, vertical);
                 dashDir = ((dashDir.x * transform.right) + (dashDir.z * transform.forward)).normalized;
             }
+            Gravity();
             Move(new Vector3(horizontal, 0, vertical));
         }
 
@@ -133,7 +136,11 @@ public class PlayerController : MonoBehaviour
         Vector3 playerPos = transform.position;
         Vector3 enemyPos = gameManager.boss.transform.position;
 
-        Quaternion lookRotate = Quaternion.LookRotation(enemyPos - playerPos);
+        Vector3 enemyPos2 = new Vector3(enemyPos.x, transform.position.y, enemyPos.z);
+
+        Quaternion lookRotate = Quaternion.LookRotation(enemyPos2 - playerPos);
+
+        //print(lookRotate);
 
         transform.rotation = Quaternion.Lerp(transform.rotation, lookRotate, Time.unscaledDeltaTime * 10f);
         rotateX = Mathf.Lerp(rotateX, 0, Time.unscaledDeltaTime * 10);
@@ -149,7 +156,7 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDir = ((dir.x * transform.right) + (dir.z * transform.forward)).normalized;
 
 		//transform.position += moveDir * currentMoveSpeed * Time.deltaTime;
-        character.Move(moveDir * currentMoveSpeed * Time.deltaTime);
+        character.Move((moveDir * currentMoveSpeed * Time.deltaTime) + (gravity * Time.deltaTime));
 
         if (dir != Vector3.zero)
         {
@@ -170,6 +177,18 @@ public class PlayerController : MonoBehaviour
         }
         camera.MovingCamera(-dir.x);
 	}
+
+    private void Gravity()
+    {
+        if (character.isGrounded)
+        {
+            gravity = Vector3.zero;
+        }
+        else
+        {
+            gravity += Vector3.down * gravityScale * 9.8f * Time.deltaTime;
+        }
+    }
 
     private void Dash()
     {

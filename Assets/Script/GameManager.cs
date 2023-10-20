@@ -21,9 +21,9 @@ public class GameManager : MonoBehaviour
         ui.bossName.text = boss.name;
     }
 
-    public void ReverseColors()
+    public void ReverseColors(bool reverse)
     {
-        isReverse = !isReverse;
+        isReverse = reverse;
 
         if (isReverse)
         {

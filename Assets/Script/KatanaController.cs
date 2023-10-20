@@ -197,6 +197,7 @@ public class KatanaController : MonoBehaviour
 		bool hitEnemy = false;
 
 		Quaternion q;
+		Vector3 v;
 
 		foreach (Collider c in targets)
 		{
@@ -211,6 +212,11 @@ public class KatanaController : MonoBehaviour
 				q = Quaternion.Euler(-60, player.transform.eulerAngles.y + (-x * 90), 0);
 				c.GetComponent<Reed>().Breaked(q);
 			}
+			else if (c.CompareTag("EnemyHead"))
+            {
+				v = (-x * transform.right * 0.3f) + (y * Vector3.up) + transform.forward;
+				c.GetComponent<Rigidbody>().AddForce(v * 10f, ForceMode.Impulse);
+            }
 		}
 		
 		if (hitEnemy)

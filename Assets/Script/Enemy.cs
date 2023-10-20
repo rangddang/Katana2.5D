@@ -20,8 +20,11 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] protected GameManager gameManager;
     [SerializeField] protected Transform target;
-    [SerializeField] protected GameObject hitEffect;
     [SerializeField] protected AnimationClip attackAnim;
+
+    [SerializeField] protected GameObject hitEffect;
+    [SerializeField] protected GameObject head;
+
     [SerializeField] protected float attackDistance = 3f;
     [SerializeField] protected float attackDelay = 1.5f;
     protected Rigidbody rigid;
@@ -104,32 +107,44 @@ public class Enemy : MonoBehaviour
 
     public virtual void Hit(float damage, float toughnessDamage, Quaternion dir)
     {
-        currentHealth -= damage;
-        currentToughness -= toughnessDamage;
-        if (!isAttack)
+        if (!isDead)
         {
-            animator.Play("Enemy_Hit");
-        }
-        if(currentToughness <= ((status.toughness / maxToughnessCount) * (toughnessCount - 1)))
-        {
-            toughnessCount--;
-            weaknessCount++;
-            StopCoroutine("StartHit");
-            StartCoroutine("StartHit");
+            currentHealth -= damage;
+            currentToughness -= toughnessDamage;
+            if (currentHealth <= 0)
+            {
+                Dead();
+            }
+            if (isDead) return;
+            if (!isAttack)
+            { 
+                animator.Play("Enemy_Hit");
+            }
+            if (currentToughness <= ((status.toughness / maxToughnessCount) * (toughnessCount - 1)))
+            {
+                toughnessCount--;
+                weaknessCount++;
+                StopCoroutine("StartHit");
+                StartCoroutine("StartHit");
+            }
+
         }
 
         GameObject effect = Instantiate(hitEffect);
         effect.transform.position = transform.position;
         effect.transform.rotation = dir;
-        if(currentHealth <= 0)
-        {
-            Dead();
-        }
     }
 
     public virtual void Dead()
     {
         isDead = true;
+        gameManager.ReverseColors(true);
+        animator.SetBool("IsDead", true);
+        Rigidbody headRigid = Instantiate(head).GetComponent<Rigidbody>();
+        headRigid.transform.position = transform.position;
+        headRigid.AddForce(new Vector3(Random.Range(0f, 3f), 10f, Random.Range(0f, 3f)), ForceMode.Impulse);
+        StopCoroutine("DeadEffect");
+        StartCoroutine("DeadEffect");
     }
 
     private IEnumerator AttackTarget()
@@ -154,6 +169,28 @@ public class Enemy : MonoBehaviour
                 yield break;
             }
             yield return new WaitForSeconds(0.4f);
+        }
+    }
+
+    private IEnumerator DeadEffect()
+    {
+        float currentTime = 0;
+        float playTime = 1;
+        float time = 0.1f;
+
+        while (true)
+        {
+            currentTime += time;
+
+            GameObject effect = Instantiate(hitEffect);
+            effect.transform.position = transform.position;
+            effect.transform.rotation = Quaternion.Euler(Random.Range(-75f, -90f), Random.Range(0f, 360f), 0);
+            if (currentTime > playTime)
+            {
+                yield break;
+            }
+            yield return new WaitForSeconds(time);
+            gameManager.ReverseColors(false);
         }
     }
 }
