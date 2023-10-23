@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AttackType
+public enum AttackState
 {
 	None,
 	Attack,
@@ -10,7 +10,7 @@ public enum AttackType
 	CounterAttack
 }
 
-public enum ParryingType
+public enum ParryingState
 {
 	None,
 	Parrying,
@@ -42,8 +42,8 @@ public class KatanaController : MonoBehaviour
 
     public bool katanaOn = false;
 	private bool saveKatanaOn = false;
-	public AttackType attackType;
-	public ParryingType parryingType;
+	public AttackState attackState;
+	public ParryingState parryingState;
 
 	private float attackTime;
 	private float parryingSucTime;
@@ -62,29 +62,29 @@ public class KatanaController : MonoBehaviour
 		if (katanaOn != saveKatanaOn)
 		{
 			saveKatanaOn = katanaOn;
-			parryingType = ParryingType.None;
+			parryingState = ParryingState.None;
 			animator.SetBool("IsAttack", false);
 			animator.SetBool("KatanaOn", katanaOn);
 		}
-		if (parryingType == ParryingType.None)
+		if (parryingState == ParryingState.None)
 		{
 			if (katanaOn)
 			{
-				if (attackType == AttackType.Attack)
+				if (attackState == AttackState.Attack)
 				{
 					Attack();
 				}
-				else if (attackType == AttackType.StrongAttack)
+				else if (attackState == AttackState.StrongAttack)
 				{
 					StrongAttack();
 				}
-				else if(attackType == AttackType.CounterAttack)
+				else if(attackState == AttackState.CounterAttack)
 				{
 					CounterAttack();
 				}
 			}
 		}
-		if (parryingType != ParryingType.None)
+		if (parryingState != ParryingState.None)
 		{
 			Parrying();
 		}
@@ -104,7 +104,7 @@ public class KatanaController : MonoBehaviour
 			}
 		}
 
-		animator.SetBool("IsParrying", !(parryingType == ParryingType.None));
+		animator.SetBool("IsParrying", !(parryingState == ParryingState.None));
     }
 
     public void Attack()

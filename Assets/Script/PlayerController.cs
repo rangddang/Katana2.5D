@@ -200,20 +200,20 @@ public class PlayerController : MonoBehaviour
     {
         if (isInvincibility) return;
 
-        if (katana.parryingType == ParryingType.None)
+        if (katana.parryingState == ParryingState.None)
         {
             status.health -= damage;
             ui.HitEffect(1);
             camera.ShakeCamera(0.4f, 0.5f);
         }
-        else if (katana.parryingType == ParryingType.Parrying)
+        else if (katana.parryingState == ParryingState.Parrying)
         {
             status.health -= damage * 0.3f;
             ui.ParryingEffect(0.1f);
             ui.HitEffect(0.4f);
 			camera.ShakeCamera(0.25f, 0.5f);
         }
-        else if (katana.parryingType == ParryingType.PerfectParrying)
+        else if (katana.parryingState == ParryingState.PerfectParrying)
         {
             ui.ParryingEffect(0.5f);
             camera.ShakeCamera(0.2f, 0.3f);

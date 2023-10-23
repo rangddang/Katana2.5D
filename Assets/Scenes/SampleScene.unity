@@ -1287,8 +1287,8 @@ MonoBehaviour:
   parryingSuccess: 0
   attackWait: 0.8
   katanaOn: 0
-  attackType: 0
-  parryingType: 0
+  attackState: 0
+  parryingState: 0
 --- !u!95 &598121809
 Animator:
   serializedVersion: 5
@@ -2233,7 +2233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f039980feb2509d40a32fbce0d1079bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 2008487277}
   bossUI: {fileID: 1749990977}
   bossHP: {fileID: 2039447385}
   bossSubHP: {fileID: 143302232}
@@ -2422,6 +2421,61 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.94, y: 1.91, z: 8.488917}
   m_LocalScale: {x: 4, y: 4, z: 4}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1466797802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1466797804}
+  - component: {fileID: 1466797803}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1466797803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1466797802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6533280b64830d24495007ea0862d530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
+  currentHealth: 0
+  currentSpeed: 0
+  currentToughness: 0
+  isDead: 0
+  moveState: 0
+  skills:
+  - name: Attack
+    attackDamage: 0
+    attackDelay: 0
+    attackRange: {fileID: 0}
+--- !u!4 &1466797804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1466797802}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3601,10 +3655,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04e1fb0ee22fc84d9293cf14f049a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ui: {fileID: 1002154118}
   boss: {fileID: 1697128896}
   player: {fileID: 2040063546}
+  ui: {fileID: 1002154118}
   volume: {fileID: 963194232}
+  isWeaknessTime: 0
   isReverse: 0
   isBreakEffect: 0
 --- !u!1 &2021146006
@@ -4089,3 +4144,4 @@ SceneRoots:
   - {fileID: 1697128898}
   - {fileID: 1414931617}
   - {fileID: 1902222218}
+  - {fileID: 1466797804}

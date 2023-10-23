@@ -6,7 +6,6 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] private GameManager gameManager;
     public GameObject bossUI;
 
     public Image bossHP;
@@ -38,12 +37,12 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
-        Vector3 playerPosition = gameManager.player.transform.position;
-        Vector3 enemyPosition = gameManager.boss.transform.position;
+        Vector3 playerPosition = GameManager.instance.player.transform.position;
+        Vector3 enemyPosition = GameManager.instance.boss.transform.position;
 
         Vector3 directionToPlayer = (enemyPosition - playerPosition).normalized;
 
-        Vector3 playerForward = gameManager.player.transform.forward;
+        Vector3 playerForward = GameManager.instance.player.transform.forward;
 
         float dotProduct = Vector3.Dot(directionToPlayer, playerForward);
 
@@ -51,10 +50,15 @@ public class UIController : MonoBehaviour
         // (뒤에 있을때도 약점이 앞에 표시되는 버그 방지)
         if(dotProduct > 0)
         {
-            weakness.position = Camera.main.WorldToScreenPoint(gameManager.boss.transform.position);
-            breakedEffect.GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(gameManager.boss.transform.position);
+            weakness.position = Camera.main.WorldToScreenPoint(GameManager.instance.boss.transform.position);
+            breakedEffect.GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(GameManager.instance.boss.transform.position);
 
         }
+
+        bossHP.fillAmount = GameManager.instance.boss.currentHealth / GameManager.instance.boss.status.health;
+        bossSubHP.fillAmount = Mathf.Lerp(bossSubHP.fillAmount, bossHP.fillAmount, Time.deltaTime * 5);
+        bossToughness.fillAmount = GameManager.instance.boss.currentToughness / GameManager.instance.boss.status.toughness;
+        bossName.text = GameManager.instance.boss.name;
     }
 
     public void WeaknessAttackEffect()
@@ -145,9 +149,9 @@ public class UIController : MonoBehaviour
         float startRotate = -720;
         float rotate = startRotate;
 
-        gameManager.boss.weaknessCount--;
+        GameManager.instance.boss.weaknessCount--;
 
-        gameManager.isBreakEffect = true;
+        GameManager.instance.isBreakEffect = true;
 
         weaknessPanel.color = Color.black;
         weaknessPanel.gameObject.SetActive(true);
@@ -176,20 +180,20 @@ public class UIController : MonoBehaviour
     private IEnumerator BreakedEffect()
     {
         float playTime = 0.55f;
-        gameManager.OnWeakness(false);
+        GameManager.instance.OnWeakness(false);
         breakedEffect.SetActive(true);
 
         weaknessPanel.color = Color.white;
         Camera.main.GetComponent<CameraController>().ShakeCamera(playTime * Time.timeScale, 1.5f);
         yield return new WaitForSecondsRealtime(playTime);
 
-        gameManager.isBreakEffect = false;
+        GameManager.instance.isBreakEffect = false;
 
         breakedEffect.SetActive(false);
         weaknessPanel.gameObject.SetActive(false);
-        gameManager.isWeaknessTime = false;
-        gameManager.ReverseColors(false);
-        gameManager.boss.Hit(gameManager.boss.status.health / 7, 0, Quaternion.Euler(-90,0,0));
+        GameManager.instance.isWeaknessTime = false;
+        GameManager.instance.ReverseColors(false);
+        GameManager.instance.boss.Hit(GameManager.instance.boss.status.health / 7, 0, Quaternion.Euler(-90,0,0));
         //while (true)
         //{
         //    if ()

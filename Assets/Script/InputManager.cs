@@ -66,7 +66,7 @@ public class InputManager : MonoBehaviour
         if (!isAttack)
         {
             attackTime += Time.deltaTime;
-			katana.attackType = AttackType.None;
+			katana.attackState = AttackState.None;
 		}
         if (Input.GetKeyDown(attackKey) && attackTime > attackDelay)
         {
@@ -74,7 +74,7 @@ public class InputManager : MonoBehaviour
             isAttack = true;
             if (katana.parryingSuccess)
             {
-				katana.attackType = AttackType.CounterAttack;
+				katana.attackState = AttackState.CounterAttack;
 				isAttack = false;
 				attackDelay = katana.counterAttackDelay;
 				attackTime = 0;
@@ -85,7 +85,7 @@ public class InputManager : MonoBehaviour
             attackHoldTime += Time.deltaTime;
 			if (attackHoldTime >= strongAttackTime)
             {
-				katana.attackType = AttackType.StrongAttack;
+				katana.attackState = AttackState.StrongAttack;
 				isAttack = false;
                 attackDelay = katana.strongAttackDelay;
                 attackTime = 0;
@@ -95,7 +95,7 @@ public class InputManager : MonoBehaviour
         {
 			if (attackHoldTime < strongAttackTime)
 			{
-				katana.attackType = AttackType.Attack;
+				katana.attackState = AttackState.Attack;
 				isAttack = false;
 				attackDelay = katana.attackDelay;
 				attackTime = 0;
@@ -117,13 +117,13 @@ public class InputManager : MonoBehaviour
 		if (Input.GetKey(parryingKey) && attackTime > attackDelay && !isParrying && parringDelay <= 0)
 		{
             isParrying = true;
-			katana.parryingType = ParryingType.PerfectParrying;
+			katana.parryingState = ParryingState.PerfectParrying;
 		}
         else if(Input.GetKey(parryingKey) && isParrying)
         {
             if(parryingTime > katana.perpectParryingTime)
             {
-				katana.parryingType = ParryingType.Parrying;
+				katana.parryingState = ParryingState.Parrying;
 			}
         }
         else if (!Input.GetKey(parryingKey) && isParrying && parryingTime > 0.25f)
@@ -131,7 +131,7 @@ public class InputManager : MonoBehaviour
             isParrying = false;
             parryingTime = 0;
             parringDelay = 0.25f;
-			katana.parryingType = ParryingType.None;
+			katana.parryingState = ParryingState.None;
 		}
 	}
 

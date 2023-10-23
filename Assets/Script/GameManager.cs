@@ -5,21 +5,29 @@ using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private UIController ui;
+    public static GameManager instance;
+
     public Enemy boss;
     public PlayerController player;
+    [SerializeField] private UIController ui;
     [SerializeField] private Volume volume;
 
     public bool isWeaknessTime = false;
     public bool isReverse = false;
     public bool isBreakEffect;
 
-    private void Update()
+    private void Awake()
     {
-        ui.bossHP.fillAmount = boss.currentHealth / boss.status.health;
-        ui.bossSubHP.fillAmount = Mathf.Lerp(ui.bossSubHP.fillAmount, ui.bossHP.fillAmount, Time.deltaTime * 5);
-        ui.bossToughness.fillAmount = boss.currentToughness / boss.status.toughness;
-        ui.bossName.text = boss.name;
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void ReverseColors(bool reverse)
