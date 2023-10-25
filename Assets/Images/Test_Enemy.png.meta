@@ -202,8 +202,8 @@ TextureImporter:
       name: Test_Enemy_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 96
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -223,7 +223,7 @@ TextureImporter:
       name: Test_Enemy_4
       rect:
         serializedVersion: 2
-        x: 32
+        x: 0
         y: 64
         width: 32
         height: 32
@@ -244,7 +244,7 @@ TextureImporter:
       name: Test_Enemy_5
       rect:
         serializedVersion: 2
-        x: 64
+        x: 32
         y: 64
         width: 32
         height: 32
@@ -265,8 +265,8 @@ TextureImporter:
       name: Test_Enemy_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
+        x: 64
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -286,8 +286,8 @@ TextureImporter:
       name: Test_Enemy_7
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
+        x: 96
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -307,7 +307,7 @@ TextureImporter:
       name: Test_Enemy_8
       rect:
         serializedVersion: 2
-        x: 64
+        x: 0
         y: 32
         width: 32
         height: 32
@@ -328,8 +328,8 @@ TextureImporter:
       name: Test_Enemy_9
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 32
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -349,8 +349,8 @@ TextureImporter:
       name: Test_Enemy_10
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
+        x: 64
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -362,6 +362,48 @@ TextureImporter:
       bones: []
       spriteID: ef3d7aaa91b84ee46aa0606bdc5c83dd
       internalID: 1283006364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Test_Enemy_11
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03720a0d89bb1cb46b71843a4feedc9f
+      internalID: -1223804014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Test_Enemy_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc4e1ed0844ae9e4e9b88e3ba049b373
+      internalID: 738411224
       vertices: []
       indices: 
       edges: []
@@ -380,6 +422,8 @@ TextureImporter:
       Test_Enemy_0: -436993173
       Test_Enemy_1: 1003663639
       Test_Enemy_10: 1283006364
+      Test_Enemy_11: -1223804014
+      Test_Enemy_12: 738411224
       Test_Enemy_2: 177430050
       Test_Enemy_3: 523034627
       Test_Enemy_4: -2020579992

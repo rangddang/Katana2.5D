@@ -34,5 +34,32 @@ public class Entity : MonoBehaviour
 
     public List<Skill> skills = new List<Skill>();
 
+    private void Awake()
+    {
+        status = GetComponent<Status>();
+    }
 
+    public virtual void Move(Vector3 dir)
+    {
+
+    }
+
+    public virtual void Attack(float damage)
+    {
+
+    }
+
+    public virtual void Hit(float hitDamage)
+    {
+        currentHealth -= hitDamage;
+        if(currentHealth <= status.health)
+        {
+            Dead();
+        }
+    }
+
+    public virtual void Dead()
+    {
+        isDead = true;
+    }
 }
