@@ -2437,12 +2437,12 @@ GameObject:
   - component: {fileID: 1466797803}
   - component: {fileID: 1466797805}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Entity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1466797803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2459,13 +2459,8 @@ MonoBehaviour:
   currentHealth: 0
   currentSpeed: 0
   currentToughness: 0
-  isDead: 0
   moveState: 0
-  skills:
-  - name: Attack
-    attackDamage: 0
-    attackDelay: 0
-    attackRange: {fileID: 0}
+  isDead: 0
 --- !u!4 &1466797804
 Transform:
   m_ObjectHideFlags: 0

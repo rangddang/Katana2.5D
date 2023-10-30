@@ -86,8 +86,8 @@ public class Enemy : MonoBehaviour
     {
         currentMoveSpeed = status.speed;
 
-        //transform.position += transform.forward * Time.deltaTime * currentMoveSpeed;
-        rigid.MovePosition(transform.position + (transform.forward * currentMoveSpeed * 10));
+        transform.position += transform.forward * Time.deltaTime * currentMoveSpeed;
+        //rigid.MovePosition(transform.position + (transform.forward * currentMoveSpeed * 10));
         animator.SetBool("IsWalk", true);
     }
 

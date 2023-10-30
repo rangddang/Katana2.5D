@@ -21,8 +21,8 @@ public class KatanaController : MonoBehaviour
 {
     private enum LeftRight
     {
-        Left,
-        Right
+        Left = 1,
+        Right = -1
     }
 
     private Animator animator;
@@ -123,9 +123,9 @@ public class KatanaController : MonoBehaviour
 
 		animator.Play("Katana_Attack_" + leftRight.ToString() + "_" + attackNum.ToString(), -1, 0);
 
-		float x = leftRight == LeftRight.Left ? 1 : -1;
+		float x = (int)leftRight;
 		float y = attackNum - 2;
-		y *= leftRight == LeftRight.Left ? 1 : -1;
+		y *= (int)leftRight;
 		camera.CutCamera(new Vector2(x, y), 3);
 
 		baseAttack(1f, 1f, -x, 0.3f * y);

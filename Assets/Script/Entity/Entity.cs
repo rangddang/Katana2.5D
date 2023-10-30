@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public enum MoveState
@@ -19,20 +20,17 @@ public class Skill
     public Transform attackRange;
 }
 
+[RequireComponent(typeof(Status))]
 public class Entity : MonoBehaviour
 {
-    [SerializeField] public string name;
-
     protected Status status;
 
     [SerializeField] public float currentHealth;
     [SerializeField] public float currentSpeed;
     [SerializeField] public float currentToughness;
 
-    public bool isDead;
     public MoveState moveState;
-
-    public List<Skill> skills = new List<Skill>();
+    public bool isDead;
 
     private void Awake()
     {
@@ -41,7 +39,7 @@ public class Entity : MonoBehaviour
 
     public virtual void Move(Vector3 dir)
     {
-
+        transform.position += dir * currentSpeed * Time.deltaTime;
     }
 
     public virtual void Attack(float damage)
@@ -49,10 +47,22 @@ public class Entity : MonoBehaviour
 
     }
 
+    public virtual void Attack(float damage, float toughnessDamage)
+    {
+
+    }
+
+    public virtual void Attack(float damage, float toughnessDamage, Vector2 dir)
+    {
+
+    }
+
     public virtual void Hit(float hitDamage)
     {
+        if (isDead) return;
+
         currentHealth -= hitDamage;
-        if(currentHealth <= status.health)
+        if(currentHealth <= 0)
         {
             Dead();
         }
