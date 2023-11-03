@@ -2984,7 +2984,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1697128896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3946,7 +3946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04e1fb0ee22fc84d9293cf14f049a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boss: {fileID: 1697128896}
+  boss: {fileID: 748236296}
   player: {fileID: 2040063546}
   ui: {fileID: 1002154118}
   volume: {fileID: 963194232}
