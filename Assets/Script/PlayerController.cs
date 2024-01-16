@@ -101,12 +101,13 @@ public class PlayerController : MonoBehaviour
             Dash();
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            OffCursor();
-        }
+        //if (Input.GetKeyDown(KeyCode.Mouse0))
+        //{
+        //    OffCursor();
+        //}
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            ui.OnMenu();
             OnCursor();
         }
 	}

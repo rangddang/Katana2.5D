@@ -23,6 +23,7 @@ public class UIController : MonoBehaviour
 
     [SerializeField] private Image parryingEffect;
     [SerializeField] private float parryingTime = 0.5f;
+    [SerializeField] private Animator menuAnim;
 
     private float alpha = 1;
 
@@ -79,6 +80,17 @@ public class UIController : MonoBehaviour
         alpha = a;
         StopCoroutine("Hit");
         StartCoroutine("Hit");
+    }
+
+    public void OnMenu()
+    {
+        menuAnim.gameObject.SetActive(true);
+        menuAnim.Play("Menu Opening", -1, 0);
+    }
+
+    public void OffMenu()
+    {
+        menuAnim.Play("Menu Ending", -1, 0);
     }
 
     private IEnumerator Hit()

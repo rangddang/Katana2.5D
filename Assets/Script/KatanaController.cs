@@ -70,6 +70,10 @@ public class KatanaController : MonoBehaviour
 		{
 			if (katanaOn)
 			{
+				if(Input.GetKeyDown(KeyCode.Y))
+				{
+					animator.Play("Katana_자세히보기", -1, 0);
+				}
 				if (attackState == AttackState.Attack)
 				{
 					Attack();
