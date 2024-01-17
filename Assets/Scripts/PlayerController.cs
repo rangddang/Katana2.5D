@@ -49,12 +49,13 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        OffCursor();
+
     }
 
     private void Update()
     {
         if (gameManager.isBreakEffect) return;
+        if (UIController.isOnMenu) return;
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
@@ -107,8 +108,14 @@ public class PlayerController : MonoBehaviour
         //}
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ui.OnMenu();
-            OnCursor();
+            if (UIController.isOnMenu)
+            {
+                ui.OffMenu();
+            }
+            else if (!UIController.isOnMenu)
+            {
+                ui.OnMenu();
+            }
         }
 	}
 
@@ -222,18 +229,6 @@ public class PlayerController : MonoBehaviour
 			katana.parryingSuccess = true;
 		}
     }
-
-    private void OnCursor()
-    {
-		Cursor.visible = true;
-		Cursor.lockState = CursorLockMode.None;
-	}
-
-    private void OffCursor()
-    {
-		Cursor.visible = false;
-		Cursor.lockState = CursorLockMode.Locked;
-	}
 
 	public void SlowTime()
 	{

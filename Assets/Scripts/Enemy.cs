@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         if (isDead) return;
+        if (UIController.isOnMenu) return;
 
         if(target != null && !gameManager.isReverse)
         {

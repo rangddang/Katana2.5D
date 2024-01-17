@@ -6,6 +6,8 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
+    public static bool isOnMenu;
+
     public GameObject bossUI;
 
     public Image bossHP;
@@ -29,6 +31,7 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
+        OffCursor();
         //print(hitEffect.childCount);
         for (int i = 0; i < hitEffect.childCount; i++)
         {
@@ -62,6 +65,18 @@ public class UIController : MonoBehaviour
         bossName.text = GameManager.instance.boss.name;
     }
 
+    public void OnCursor()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void OffCursor()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     public void WeaknessAttackEffect()
     {
         StopCoroutine("WeaknessEffect");
@@ -84,13 +99,20 @@ public class UIController : MonoBehaviour
 
     public void OnMenu()
     {
+        isOnMenu = true;
+        OnCursor();
         menuAnim.gameObject.SetActive(true);
         menuAnim.Play("Menu Opening", -1, 0);
+        StopCoroutine("DisActive");
     }
 
     public void OffMenu()
     {
+        isOnMenu = false;
+        OffCursor();
         menuAnim.Play("Menu Ending", -1, 0);
+        StopCoroutine("DisActive");
+        StartCoroutine("DisActive");
     }
 
     private IEnumerator Hit()
@@ -214,5 +236,11 @@ public class UIController : MonoBehaviour
         //    }
         //    yield return null;
         //}
+    }
+
+    private IEnumerator DisActive()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        menuAnim.gameObject.SetActive(false);
     }
 }

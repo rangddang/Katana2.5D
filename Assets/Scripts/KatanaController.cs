@@ -57,6 +57,7 @@ public class KatanaController : MonoBehaviour
 
     private void Update()
     {
+		if (UIController.isOnMenu) return;
 		attackTime += Time.deltaTime;
 
 		if (katanaOn != saveKatanaOn)

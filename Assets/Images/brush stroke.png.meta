@@ -127,8 +127,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 110
-        width: 70
+        y: 132
+        width: 86
         height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -137,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 96b61186aeffb5046811d2383926aaa1
-      internalID: -721263966
+      spriteID: 9d099bfd96aa13947ab4b3d5f63dbea9
+      internalID: -714460560
       vertices: []
       indices: 
       edges: []
@@ -148,8 +148,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 88
-        width: 70
+        y: 110
+        width: 86
         height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -158,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 934c633d665f03b4badb80461ba88a7d
-      internalID: 1465310253
+      spriteID: 760ab6bde33645743876a62e063b878f
+      internalID: -2101733702
       vertices: []
       indices: 
       edges: []
@@ -169,8 +169,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 66
-        width: 70
+        y: 88
+        width: 86
         height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -179,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4b62f709f4dc614f914886f5fa49e15
-      internalID: -493484200
+      spriteID: 2249130ec6dd83c4986700f51fca7852
+      internalID: -1126829030
       vertices: []
       indices: 
       edges: []
@@ -190,8 +190,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 44
-        width: 70
+        y: 66
+        width: 86
         height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -200,8 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0daffd6c5a365eb4fae6cd09a4578e9f
-      internalID: -36824756
+      spriteID: 813cd55c2d7ad9d4b92694716cf0df33
+      internalID: 1175418211
       vertices: []
       indices: 
       edges: []
@@ -211,8 +211,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 22
-        width: 70
+        y: 44
+        width: 86
         height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -221,8 +221,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c11e6cb65f1156b409530534693a453d
-      internalID: -1081731385
+      spriteID: a3545723b6095614eb0052bc6b0d9727
+      internalID: -1320830839
       vertices: []
       indices: 
       edges: []
@@ -232,8 +232,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 70
+        y: 22
+        width: 86
         height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -242,8 +242,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ed8870a24e604034694bf9b3aacca09b
-      internalID: -536056042
+      spriteID: acdd45958d1c9fc45bed4dfd726fbba8
+      internalID: 669108380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: brush stroke_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 86
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12f56ad37c97b3543880db7436b0e861
+      internalID: -885003250
       vertices: []
       indices: 
       edges: []
@@ -251,7 +272,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9d0ff2ffa56477145a4235444f9d0854
+    spriteID: d1539e0b204a17b44a365ee58743830b
     internalID: 0
     vertices: []
     indices: 
@@ -259,12 +280,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      brush stroke_0: -721263966
-      brush stroke_1: 1465310253
-      brush stroke_2: -493484200
-      brush stroke_3: -36824756
-      brush stroke_4: -1081731385
-      brush stroke_5: -536056042
+      brush stroke_0: -714460560
+      brush stroke_1: -2101733702
+      brush stroke_2: -1126829030
+      brush stroke_3: 1175418211
+      brush stroke_4: -1320830839
+      brush stroke_5: 669108380
+      brush stroke_6: -885003250
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
