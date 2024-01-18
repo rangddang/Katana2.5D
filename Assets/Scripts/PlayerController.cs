@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     [SerializeField] private KatanaController katana;
     [SerializeField] private UIController ui;
-    [SerializeField] protected Animator dashEffect;
+    [SerializeField] private ParticleSystem dashEffect;
 
     private CameraController camera;
     private CharacterController character;
@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
 
         if (!isDash)
         {
+            dashEffect.Stop();
             if (dashCheck)
             {
                 isInvincibility = false;
@@ -97,7 +98,7 @@ public class PlayerController : MonoBehaviour
                 isInvincibility = true;
                 dashCheck = true;
                 camera.ZoomInCamera(75f);
-                dashEffect.SetTrigger("Play");
+                dashEffect.Play();
             }
             Dash();
         }
