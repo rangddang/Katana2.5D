@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private KatanaController katana;
     [SerializeField] private UIController ui;
     [SerializeField] private ParticleSystem dashEffect;
+    [SerializeField] private ParticleSystem sideDashEffect;
 
     private CameraController camera;
     private CharacterController character;
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private bool dashCheck;
 
     private Vector3 dashDir;
+    private Vector3 dashEffectDir;
     private Vector3 gravity;
 
     private void Awake()
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour
         if (!isDash)
         {
             dashEffect.Stop();
+            sideDashEffect.Stop();
             if (dashCheck)
             {
                 isInvincibility = false;
@@ -73,6 +76,7 @@ public class PlayerController : MonoBehaviour
             if (isMove)
             {
                 dashDir = new Vector3(horizontal, 0, vertical);
+                dashEffectDir = dashDir;
                 dashDir = ((dashDir.x * transform.right) + (dashDir.z * transform.forward)).normalized;
             }
             Gravity();
@@ -98,7 +102,29 @@ public class PlayerController : MonoBehaviour
                 isInvincibility = true;
                 dashCheck = true;
                 camera.ZoomInCamera(75f);
-                dashEffect.Play();
+                if(dashEffectDir.z > 0)
+                {
+                    dashEffect.Play();
+                }
+                else
+                {
+                    if(dashEffectDir.z < 0)
+                    {
+                        sideDashEffect.transform.localPosition = new Vector3(0, 0, -0.5f);
+                        sideDashEffect.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    else if(dashEffectDir.x > 0)
+                    {
+                        sideDashEffect.transform.localPosition = new Vector3(2f, 0, 0.5f);
+                        sideDashEffect.transform.localRotation = Quaternion.Euler(0, -90, 0);
+                    }
+                    else if (dashEffectDir.x < 0)
+                    {
+                        sideDashEffect.transform.localPosition = new Vector3(-2f, 0, 0.5f);
+                        sideDashEffect.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                    }
+                    sideDashEffect.Play();
+                }
             }
             Dash();
         }
